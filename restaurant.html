@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maison Étoile | Restaurant Fine Dining</title>
+  <meta name="description" content="Maison Étoile est un restaurant chic et moderne offrant une expérience fine dining, des plats raffinés, des réservations en ligne et un cadre élégant." />
+  <meta name="keywords" content="restaurant, fine dining, réservation, menu, restaurant luxe, cuisine française" />
+  <meta name="theme-color" content="#0b0a09" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0b0908;
+      --panel: #161311;
+      --panel-2: #1d1713;
+      --gold: #d4af37;
+      --gold-soft: #f3e1a8;
+      --text: #fffaf3;
+      --muted: #d8cfbf;
+      --line: rgba(212, 175, 55, 0.18);
+      --shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', Arial, sans-serif;
+      background:
+        linear-gradient(rgba(8, 7, 6, 0.72), rgba(8, 7, 6, 0.72)),
+        url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1400&q=80') center/cover fixed no-repeat;
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    img { width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+    .container { width: min(1200px, calc(100% - 24px)); margin: 0 auto; }
+    .section { padding: 72px 0; }
+    .eyebrow {
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      color: var(--gold-soft);
+      font-size: 0.82rem;
+      margin-bottom: 10px;
+    }
+    h1, h2, h3 { font-family: 'Cormorant Garamond', Georgia, serif; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 999px; padding: 12px 18px; font-weight: 700; transition: 0.25s;
+      border: 1px solid transparent;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-gold { background: linear-gradient(135deg, var(--gold), #b98a0b); color: #120f0b; }
+    .btn-dark { background: rgba(255,255,255,0.06); color: #fff; border-color: var(--line); }
+
+    .topbar {
+      position: sticky; top: 0; z-index: 20;
+      background: rgba(11, 9, 8, 0.78);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav-wrap { display: flex; justify-content: space-between; align-items: center; min-height: 72px; gap: 16px; }
+    .brand { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 1.4rem; font-weight: 700; letter-spacing: 2px; }
+    .brand span { color: var(--gold-soft); }
+    .nav-links { display: flex; gap: 18px; flex-wrap: wrap; }
+    .nav-links a { color: var(--muted); transition: color 0.2s; }
+    .nav-links a:hover { color: #fff; }
+
+    .hero {
+      min-height: 92vh; display: grid; align-items: center;
+      padding: 28px 0 60px;
+    }
+    .hero-grid {
+      display: grid; grid-template-columns: 1.05fr 0.95fr; gap: 22px;
+      align-items: stretch;
+    }
+    .glass {
+      background: linear-gradient(145deg, rgba(22, 19, 17, 0.92), rgba(15, 12, 10, 0.95));
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .hero-copy { padding: 28px; }
+    .hero-copy h1 { font-size: clamp(3rem, 7vw, 5rem); line-height: 1.02; margin-bottom: 14px; }
+    .hero-copy p { color: var(--muted); font-size: 1.05rem; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
+    .hero-highlights { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 22px; }
+    .stat { border: 1px solid var(--line); border-radius: 18px; padding: 12px; background: rgba(255,255,255,0.04); }
+    .stat strong { display: block; color: #fff; font-size: 1.1rem; }
+    .stat span { color: var(--muted); font-size: 0.92rem; }
+
+    .hero-card {
+      display: grid; grid-template-rows: 1fr auto;
+      min-height: 440px;
+      background:
+        linear-gradient(to top, rgba(0,0,0,0.55), rgba(0,0,0,0.05)),
+        url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=900&q=80') center/cover no-repeat;
+    }
+    .badge-box { padding: 18px; display: flex; justify-content: space-between; align-items: flex-end; }
+    .pill { display: inline-flex; align-items: center; gap: 6px; padding: 8px 10px; border-radius: 999px; background: rgba(0,0,0,0.45); border: 1px solid rgba(255,255,255,0.12); font-size: 0.88rem; color: var(--gold-soft); }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .card { padding: 20px; border: 1px solid var(--line); border-radius: 22px; background: rgba(255,255,255,0.04); }
+    .card p, .card li { color: var(--muted); }
+    .card ul { margin-top: 10px; padding-left: 18px; }
+
+    .menu-grid, .gallery-grid, .review-grid { display: grid; gap: 18px; }
+    .menu-grid { grid-template-columns: repeat(2, 1fr); }
+    .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+    .review-grid { grid-template-columns: repeat(3, 1fr); }
+    .item {
+      padding: 16px; border: 1px solid var(--line); border-radius: 18px; background: rgba(255,255,255,0.04);
+      transition: transform 0.2s, background 0.2s;
+    }
+    .item:hover, .card:hover { transform: translateY(-3px); background: rgba(255,255,255,0.07); }
+    .item-head { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 6px; }
+    .price { color: var(--gold-soft); font-weight: 700; }
+
+    .booking-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .form-grid { display: grid; gap: 12px; }
+    .field label { display: block; margin-bottom: 6px; color: var(--gold-soft); font-size: 0.95rem; }
+    .field input, .field select, .field textarea {
+      width: 100%; border: 1px solid var(--line); border-radius: 12px; padding: 12px 13px;
+      background: rgba(255,255,255,0.05); color: #fff; font: inherit;
+    }
+    .field input::placeholder, .field textarea::placeholder { color: #c9c2b8; }
+    .notice { color: var(--gold-soft); margin-top: 8px; font-size: 0.95rem; }
+
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .map-box { border-radius: 18px; overflow: hidden; border: 1px solid var(--line); min-height: 320px; }
+
+    .floating-actions {
+      position: fixed; right: 14px; bottom: 14px; display: grid; gap: 10px; z-index: 25;
+    }
+    .fab {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 10px 12px; border-radius: 999px; background: #111; border: 1px solid var(--line); color: #fff;
+      box-shadow: var(--shadow);
+      font-weight: 600;
+    }
+    .fab.whatsapp { background: #128c7e; border-color: transparent; }
+    .fab.instagram { background: linear-gradient(45deg, #405de6, #c13584, #fd1d1d); border-color: transparent; }
+
+    .footer { padding: 16px 0 32px; color: var(--muted); text-align: center; font-size: 0.95rem; border-top: 1px solid var(--line); margin-top: 12px; }
+
+    @media (max-width: 1080px) { .hero-grid, .booking-wrap, .contact-grid, .grid-2 { grid-template-columns: 1fr; } }
+    @media (max-width: 920px) { .menu-grid, .gallery-grid, .review-grid { grid-template-columns: 1fr; } .hero-highlights { grid-template-columns: 1fr; } }
+    @media (max-width: 760px) {
+      .nav-wrap { flex-direction: column; align-items: flex-start; padding: 10px 0; }
+      .nav-links { gap: 10px; }
+      .section { padding: 52px 0; }
+      .hero { min-height: auto; }
+      .hero-copy h1 { font-size: clamp(2.3rem, 10vw, 3rem); }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <nav class="container nav-wrap">
+      <a class="brand" href="#home">Maison <span>Étoile</span></a>
+      <div class="nav-links">
+        <a href="#about">À propos</a>
+        <a href="#menu">Menu</a>
+        <a href="#booking">Réservation</a>
+        <a href="#gallery">Galerie</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="home" class="container">
+    <section class="hero">
+      <div class="hero-grid">
+        <article class="glass hero-copy">
+          <p class="eyebrow">Fine Dining • Paris</p>
+          <h1>Une expérience gastronomique élégante, chaleureuse et mémorable.</h1>
+          <p>Découvrez un restaurant haut de gamme où chaque plat raconte une histoire, chaque détail est soigneusement pensé et chaque visite devient un moment à part.</p>
+          <div class="hero-actions">
+            <a class="btn btn-gold" href="#booking">Book a Table</a>
+            <a class="btn btn-dark" href="#menu">Voir le menu</a>
+          </div>
+          <div class="hero-highlights">
+            <div class="stat"><strong>4.9/5</strong><span>avis clients</span></div>
+            <div class="stat"><strong>18</strong><span>plats signature</span></div>
+            <div class="stat"><strong>Open 7j/7</strong><span>déjeuner & dîner</span></div>
+          </div>
+        </article>
+        <aside class="glass hero-card">
+          <div class="badge-box">
+            <span class="pill">⭐ Michelin-inspired ambiance</span>
+            <span class="pill">🍷 Sommelier sélection</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section id="about" class="section grid-2">
+      <article class="card">
+        <p class="eyebrow">À propos</p>
+        <h2>Le savoir-faire d’un restaurant d’exception.</h2>
+        <p>Maison Étoile est né de la passion pour une cuisine raffinée, des produits de saison et une atmosphère intime. Nous mêlons élégance, créativité et hospitalité pour offrir une expérience invitant à la découverte.</p>
+      </article>
+      <article class="card">
+        <p class="eyebrow">Ambiance</p>
+        <ul>
+          <li>Décoration moderne, chaleureuse et luxueuse</li>
+          <li>Plats préparés avec des ingrédients frais et locaux</li>
+          <li>Service attentif pour un dîner inoubliable</li>
+        </ul>
+      </article>
+    </section>
+
+    <section id="menu" class="section">
+      <p class="eyebrow">Menu</p>
+      <h2>Découvrez nos créations gourmandes</h2>
+      <div class="menu-grid" style="margin-top: 16px;">
+        <article class="item"><div class="item-head"><h3>Crème de champignons</h3><span class="price">12 €</span></div><p>Velouté crémeux, truffe noire, croûtons croustillants.</p></article>
+        <article class="item"><div class="item-head"><h3>Carpaccio de saumon</h3><span class="price">15 €</span></div><p>Saumon frais, citron vert, herbes, huile d’olive premium.</p></article>
+        <article class="item"><div class="item-head"><h3>Filet mignon</h3><span class="price">29 €</span></div><p>Filet de bœuf, purée parfumée, jus réduit, légumes glacés.</p></article>
+        <article class="item"><div class="item-head"><h3>Risotto aux champignons</h3><span class="price">24 €</span></div><p>Risotto crémeux, parmesan affiné, persil frais.</p></article>
+        <article class="item"><div class="item-head"><h3>Tarte au citron</h3><span class="price">9 €</span></div><p>Citron frais, crème légère, meringue dorée.</p></article>
+        <article class="item"><div class="item-head"><h3>Crème brûlée</h3><span class="price">10 €</span></div><p>Caramel croustillant, vanille bourbon, crème onctueuse.</p></article>
+        <article class="item"><div class="item-head"><h3>Mocktail Étoile</h3><span class="price">7 €</span></div><p>Orange, gingembre, basilic, sparkle maison.</p></article>
+        <article class="item"><div class="item-head"><h3>Vin rouge signature</h3><span class="price">14 €</span></div><p>Sélection du sommelier, notes fruitées et épicées.</p></article>
+      </div>
+    </section>
+
+    <section id="booking" class="section booking-wrap">
+      <article class="card">
+        <p class="eyebrow">Réservation</p>
+        <h2>Réservez votre table en ligne</h2>
+        <p>Choisissez votre date, votre heure et le nombre de convives pour une réservation instantanée.</p>
+        <ul style="margin-top: 10px; padding-left: 18px;">
+          <li>Réservation rapide et sécurisée</li>
+          <li>Confirmation par email ou téléphone</li>
+          <li>Service VIP et menus spéciaux</li>
+        </ul>
+      </article>
+      <article class="card">
+        <form class="form-grid" id="reservationForm">
+          <div class="field"><label for="name">Nom complet</label><input id="name" type="text" placeholder="Votre nom" required /></div>
+          <div class="field"><label for="date">Date</label><input id="date" type="date" required /></div>
+          <div class="field"><label for="time">Heure</label><input id="time" type="time" required /></div>
+          <div class="field"><label for="guests">Nombre de convives</label><select id="guests"><option>2</option><option>4</option><option>6</option><option>8+</option></select></div>
+          <div class="field"><label for="phone">Téléphone</label><input id="phone" type="tel" placeholder="06 12 34 56 78" required /></div>
+          <div class="field"><label for="notes">Remarques</label><textarea id="notes" rows="3" placeholder="Allergies, occasion spéciale..."></textarea></div>
+          <button class="btn btn-gold" type="submit">Confirmer la réservation</button>
+          <p class="notice" id="formNotice">Votre réservation sera traitée avec soin.</p>
+        </form>
+      </article>
+    </section>
+
+    <section id="gallery" class="section">
+      <p class="eyebrow">Galerie</p>
+      <h2>Un décor sophistiqué et des plats splendides</h2>
+      <div class="gallery-grid" style="margin-top: 16px;">
+        <article class="item"><img src="https://images.unsplash.com/photo-1514933651103-005eec06c04b?auto=format&fit=crop&w=900&q=80" alt="Plats raffinés du restaurant" /></article>
+        <article class="item"><img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&w=900&q=80" alt="Intérieur élégant du restaurant" /></article>
+        <article class="item"><img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=80" alt="Ambiance chaleureuse du restaurant" /></article>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="eyebrow">Témoignages</p>
+      <h2>Ce que nos clients disent</h2>
+      <div class="review-grid" style="margin-top: 16px;">
+        <article class="card"><p>“Une expérience premium, du début à la fin. La cuisine est raffinée et l’ambiance incroyable.”</p><strong>— Sarah, Paris</strong></article>
+        <article class="card"><p>“Le service est impeccable et les plats sont vraiment spectaculaires. Très belle adresse.”</p><strong>— Lucas, Lyon</strong></article>
+        <article class="card"><p>“Le meilleur dîner de la semaine. Les saveurs, la présentation et l’accueil sont parfaits.”</p><strong>— Amira, Marseille</strong></article>
+      </div>
+    </section>
+
+    <section id="contact" class="section contact-grid">
+      <article class="card">
+        <p class="eyebrow">Contact</p>
+        <h2>Visitez-nous ou contactez-nous</h2>
+        <p><strong>Téléphone :</strong> +33 1 45 67 89 10</p>
+        <p><strong>Email :</strong> contact@maisonetoile.fr</p>
+        <p><strong>Adresse :</strong> 18 Rue de la Paix, 75002 Paris</p>
+        <p><strong>Horaires :</strong> Lun-Dim : 12h00 – 23h00</p>
+        <p style="margin-top: 8px;">Nous sommes à votre écoute pour vos événements privés, dîners d’affaires et célébrations spéciales.</p>
+      </article>
+      <article class="map-box">
+        <iframe title="Carte du restaurant" src="https://www.google.com/maps?q=Paris%20Rue%20de%20la%20Paix&z=14&output=embed" style="width:100%;height:100%;border:0;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </article>
+    </section>
+  </main>
+
+  <div class="floating-actions">
+    <a class="fab whatsapp" href="https://wa.me/33145678910" target="_blank" rel="noopener">💬 WhatsApp</a>
+    <a class="fab instagram" href="https://www.instagram.com/" target="_blank" rel="noopener">📸 Instagram</a>
+  </div>
+
+  <footer class="footer">© <span id="year"></span> Maison Étoile — Restaurant Fine Dining</footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById('reservationForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      document.getElementById('formNotice').textContent = 'Merci ! Votre réservation a bien été enregistrée. Nous vous contacterons bientôt.';
+      this.reset();
+    });
+  </script>
+</body>
+</html>

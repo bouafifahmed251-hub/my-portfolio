@@ -1,0 +1,1773 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#f8f7f4" />
+  <title>ShopPro — Les essentiels du quotidien</title>
+  <meta name="description"
+    content="Découvrez une sélection d'accessoires tech et lifestyle choisis pour améliorer votre quotidien." />
+  <link rel="stylesheet" href="e-commerce.css" />
+  <script src="e-commerce.js" defer></script>
+</head>
+
+<body class="shop-page">
+  <div class="announcement">Livraison offerte dès 100 € d’achat <span aria-hidden="true">✦</span> Retours faciles sous
+    30 jours</div>
+
+  <header class="site-header">
+    <nav class="nav-shell" aria-label="Navigation principale">
+      <a class="brand" href="#home" aria-label="ShopPro, accueil">shop<span>pro</span><i>.</i></a>
+      <div class="nav-links">
+        <a href="#collection">La sélection</a>
+        <a href="#promesse">Notre promesse</a>
+      </div>
+      <div class="nav-actions">
+        <label class="search-box">
+          <span class="sr-only">Rechercher un produit</span>
+          <span aria-hidden="true">⌕</span>
+          <input id="product-search" type="search" placeholder="Rechercher" autocomplete="off" />
+        </label>
+        <button class="cart-toggle" id="cart-toggle" type="button" aria-expanded="false" aria-controls="cart-panel">
+          <svg aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 8h14l1 12H4L5 8Z" />
+            <path d="M9 8a3 3 0 0 1 6 0" />
+          </svg>
+          <span class="cart-label">Panier</span>
+          <span class="cart-count" id="cart-count" aria-label="0 article">0</span>
+        </button>
+      </div>
+    </nav>
+    <div class="cart-panel" id="cart-panel" hidden>
+      <div class="cart-heading">
+        <h2>Votre panier</h2>
+        <button class="cart-close" id="cart-close" type="button" aria-label="Fermer le panier">×</button>
+      </div>
+      <p class="cart-empty" id="cart-empty">Votre panier est encore vide. Ajoutez un coup de cœur !</p>
+      <ul class="cart-items" id="cart-items"></ul>
+      <div class="cart-summary" id="cart-summary" hidden>
+        <span>Sous-total</span>
+        <strong id="cart-total">0,00 €</strong>
+      </div>
+      <p class="cart-note">Livraison calculée à l’étape suivante.</p>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="hero-copy">
+        <p class="eyebrow"><span></span> Moins, mais mieux</p>
+        <h1>Le quotidien<br />en <em>mieux.</em></h1>
+        <p class="hero-description">Des objets bien pensés, un design qui dure. Découvrez notre sélection d’essentiels
+          tech et lifestyle.</p>
+        <a class="button button-dark" href="#collection">Découvrir la sélection <span aria-hidden="true">↗</span></a>
+        <div class="hero-proof"><span class="proof-stars" aria-label="5 étoiles">★★★★★</span><span>Adopté par plus de 2
+            000 clients</span></div>
+      </div>
+      <div class="hero-art" aria-label="Illustration d'écouteurs et d'une montre connectée">
+        <div class="hero-orbit orbit-one"></div>
+        <div class="hero-orbit orbit-two"></div>
+        <div class="hero-sticker">CHOISI<br />AVEC SOIN <span>✳</span></div>
+        <div class="hero-product hero-headphones" aria-hidden="true">🎧</div>
+        <div class="hero-product hero-watch" aria-hidden="true">⌚</div>
+        <div class="hero-caption"><span>La sélection du moment</span><strong>Petits objets, grandes idées.</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="trust-strip" id="promesse" aria-label="Nos engagements">
+      <div><span aria-hidden="true">✳</span><strong>Bien choisi</strong><small>Une sélection qui a du sens</small></div>
+      <div><span aria-hidden="true">↗</span><strong>Envoi rapide</strong><small>Expédié sous 48 heures</small></div>
+      <div><span aria-hidden="true">♡</span><strong>Sans souci</strong><small>Retours faciles sous 30 jours</small>
+      </div>
+      <div><span aria-hidden="true">♧</span><strong>À votre écoute</strong><small>Une équipe qui vous répond</small>
+      </div>
+    </section>
+
+    <section class="collection section-shell" id="collection">
+      <div class="section-top">
+        <div>
+          <p class="eyebrow">Nos coups de cœur</p>
+          <h2>La sélection <em>ShopPro</em></h2>
+        </div>
+        <p class="section-intro">Des indispensables utiles, beaux et faciles à adopter.</p>
+      </div>
+
+      <div class="collection-controls">
+        <div class="filter-list" role="group" aria-label="Filtrer par catégorie">
+          <button class="filter-button is-active" type="button" data-filter="all" aria-pressed="true">Tout voir</button>
+          <button class="filter-button" type="button" data-filter="audio" aria-pressed="false">Audio</button>
+          <button class="filter-button" type="button" data-filter="wearables" aria-pressed="false">Connecté</button>
+          <button class="filter-button" type="button" data-filter="accessories"
+            aria-pressed="false">Accessoires</button>
+        </div>
+        <label class="sort-control">Trier par
+          <select id="product-sort" aria-label="Trier les produits">
+            <option value="featured">Notre sélection</option>
+            <option value="price-asc">Prix croissant</option>
+            <option value="price-desc">Prix décroissant</option>
+          </select>
+        </label>
+      </div>
+
+      <p class="sr-only" id="results-status" aria-live="polite"></p>
+      <div class="product-grid" id="product-grid">
+        <article class="product-card" data-id="earbuds" data-category="audio" data-price="79.99"
+          data-name="Écouteurs Studio">
+          <div class="product-art art-lilac"><span class="product-label">Best-seller</span><span class="product-emoji"
+              aria-hidden="true">🎧</span><span class="art-sparkle" aria-hidden="true">✳</span></div>
+          <div class="product-info">
+            <div class="product-meta"><span>Audio</span><span class="rating">★★★★★ <small>(128)</small></span></div>
+            <h3>Écouteurs Studio</h3>
+            <p>Un son riche, partout avec vous.</p>
+            <div class="product-buy"><strong>79,99 €</strong><button class="add-button" type="button" data-add="earbuds"
+                aria-label="Ajouter Écouteurs Studio au panier">Ajouter <span aria-hidden="true">＋</span></button></div>
+          </div>
+        </article>
+
+        <article class="product-card" data-id="watch" data-category="wearables" data-price="129"
+          data-name="Montre Active">
+          <div class="product-art art-peach"><span class="product-label label-new">Nouveau</span><span
+              class="product-emoji" aria-hidden="true">⌚</span><span class="art-sparkle" aria-hidden="true">✳</span>
+          </div>
+          <div class="product-info">
+            <div class="product-meta"><span>Connecté</span><span class="rating">★★★★★ <small>(86)</small></span></div>
+            <h3>Montre Active</h3>
+            <p>Votre journée, en un coup d’œil.</p>
+            <div class="product-buy"><strong>129,00 €</strong><button class="add-button" type="button" data-add="watch"
+                aria-label="Ajouter Montre Active au panier">Ajouter <span aria-hidden="true">＋</span></button></div>
+          </div>
+        </article>
+
+        <article class="product-card" data-id="speaker" data-category="audio" data-price="49.5"
+          data-name="Mini enceinte">
+          <div class="product-art art-mint"><span class="product-label label-sale">-15 %</span><span
+              class="product-emoji" aria-hidden="true">🔊</span><span class="art-sparkle" aria-hidden="true">✳</span>
+          </div>
+          <div class="product-info">
+            <div class="product-meta"><span>Audio</span><span class="rating">★★★★☆ <small>(54)</small></span></div>
+            <h3>Mini enceinte</h3>
+            <p>Le bon son, même en vadrouille.</p>
+            <div class="product-buy"><strong>49,50 €</strong><button class="add-button" type="button" data-add="speaker"
+                aria-label="Ajouter Mini enceinte au panier">Ajouter <span aria-hidden="true">＋</span></button></div>
+          </div>
+        </article>
+
+        <article class="product-card" data-id="charger" data-category="accessories" data-price="29.9"
+          data-name="Chargeur nomade">
+          <div class="product-art art-blue"><span class="product-label">Indispensable</span><span class="product-emoji"
+              aria-hidden="true">🔋</span><span class="art-sparkle" aria-hidden="true">✳</span></div>
+          <div class="product-info">
+            <div class="product-meta"><span>Accessoires</span><span class="rating">★★★★★ <small>(73)</small></span>
+            </div>
+            <h3>Chargeur nomade</h3>
+            <p>De l’énergie en réserve, toujours.</p>
+            <div class="product-buy"><strong>29,90 €</strong><button class="add-button" type="button" data-add="charger"
+                aria-label="Ajouter Chargeur nomade au panier">Ajouter <span aria-hidden="true">＋</span></button></div>
+          </div>
+        </article>
+
+        <article class="product-card" data-id="sunglasses" data-category="accessories" data-price="39"
+          data-name="Lunettes Sol">
+          <div class="product-art art-yellow"><span class="product-label label-new">Nouveau</span><span
+              class="product-emoji" aria-hidden="true">🕶️</span><span class="art-sparkle" aria-hidden="true">✳</span>
+          </div>
+          <div class="product-info">
+            <div class="product-meta"><span>Accessoires</span><span class="rating">★★★★★ <small>(41)</small></span>
+            </div>
+            <h3>Lunettes Sol</h3>
+            <p>Une touche de soleil, tout simplement.</p>
+            <div class="product-buy"><strong>39,00 €</strong><button class="add-button" type="button"
+                data-add="sunglasses" aria-label="Ajouter Lunettes Sol au panier">Ajouter <span
+                  aria-hidden="true">＋</span></button></div>
+          </div>
+        </article>
+
+        <article class="product-card" data-id="headphones" data-category="audio" data-price="99"
+          data-name="Casque Nomade">
+          <div class="product-art art-coral"><span class="product-label">Coup de cœur</span><span class="product-emoji"
+              aria-hidden="true">🎵</span><span class="art-sparkle" aria-hidden="true">✳</span></div>
+          <div class="product-info">
+            <div class="product-meta"><span>Audio</span><span class="rating">★★★★★ <small>(97)</small></span></div>
+            <h3>Casque Nomade</h3>
+            <p>Votre bulle, votre musique, votre rythme.</p>
+            <div class="product-buy"><strong>99,00 €</strong><button class="add-button" type="button"
+                data-add="headphones" aria-label="Ajouter Casque Nomade au panier">Ajouter <span
+                  aria-hidden="true">＋</span></button></div>
+          </div>
+        </article>
+      </div>
+      <p class="no-results" id="no-results" hidden>Aucun produit ne correspond à votre recherche.</p>
+    </section>
+
+    <section class="closing-banner">
+      <div>
+        <p class="eyebrow">Fait pour durer</p>
+        <h2>Les bons objets.<br /><em>Les bons moments.</em></h2>
+      </div>
+      <p>ShopPro, c’est une petite sélection d’objets que l’on aime vraiment — pour soi ou pour offrir.</p>
+      <a class="button button-light" href="#collection">Trouver mon essentiel <span aria-hidden="true">↗</span></a>
+      <span class="banner-sun" aria-hidden="true">✳</span>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="brand" href="#home">shop<span>pro</span><i>.</i></a>
+    <p>Des essentiels choisis avec soin. <span>© 2026 ShopPro</span></p>
+    <a href="#home">Retour en haut ↑</a>
+  </footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<style>:root {
+    --bg: #f8f7f4;
+    --white: #ffffff;
+    --text: #20231f;
+    --muted: #777b75;
+    --line: #e9e8e2;
+    --green: #315d48;
+    --green-light: #e5eee7;
+    --blue: #e5efff;
+    --radius: 22px;
+    --shadow: 0 12px 35px rgba(35, 45, 35, 0.07);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 100px;
+}
+
+body.shop-page {
+    font-family: 'DM Sans', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+button,
+a {
+    -webkit-tap-highlight-color: transparent;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible {
+    outline: 3px solid #91b9a0;
+    outline-offset: 4px;
+}
+
+::selection {
+    background: #d6e8d9;
+    color: #203d2b;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+/* =========================================
+   ANNOUNCEMENT BAR
+========================================= */
+
+.announcement {
+    min-height: 36px;
+    padding: 7px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 13px;
+    background: #315d48;
+    color: white;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.4px;
+}
+
+.announcement span {
+    color: #d8e7c9;
+}
+
+/* =========================================
+   HEADER & NAVIGATION
+========================================= */
+
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(248, 247, 244, 0.94);
+    border-bottom: 1px solid var(--line);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.nav-shell {
+    position: relative;
+    width: min(1320px, 88%);
+    min-height: 88px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 35px;
+}
+
+.brand {
+    flex-shrink: 0;
+    font-family: 'Manrope', sans-serif;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -2px;
+}
+
+.brand span {
+    color: var(--green);
+}
+
+.brand i {
+    color: #d79c66;
+    font-style: normal;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.nav-links a {
+    color: #656961;
+    font-size: 13px;
+    font-weight: 600;
+    transition: color 0.25s ease;
+}
+
+.nav-links a:hover {
+    color: var(--green);
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* SEARCH */
+
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    width: 180px;
+    padding: 10px 13px;
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 30px;
+    color: var(--muted);
+    transition: border-color 0.25s ease;
+}
+
+.search-box:focus-within {
+    border-color: #a4bca9;
+}
+
+.search-box > span:not(.sr-only) {
+    font-size: 22px;
+    line-height: 1;
+}
+
+.search-box input {
+    width: 100%;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--text);
+    font-size: 12px;
+}
+
+.search-box input::placeholder {
+    color: #a0a39c;
+}
+
+/* SCREEN READER ONLY */
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* CART BUTTON */
+
+.cart-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 10px 13px;
+    border: 1px solid #dcded6;
+    border-radius: 30px;
+    background: white;
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 700;
+    transition: background 0.25s ease;
+}
+
+.cart-toggle:hover {
+    background: var(--green-light);
+}
+
+.cart-count {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    background: var(--green);
+    color: white;
+    font-size: 10px;
+}
+
+/* =========================================
+   SHOPPING CART PANEL
+========================================= */
+
+.cart-panel {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 6%;
+    z-index: 200;
+    width: min(390px, 90vw);
+    max-height: 75vh;
+    overflow-y: auto;
+    padding: 25px;
+    background: white;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(20, 30, 20, 0.15);
+}
+
+.cart-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--line);
+}
+
+.cart-heading h2 {
+    font-family: 'Manrope', sans-serif;
+    font-size: 21px;
+}
+
+.cart-close {
+    width: 34px;
+    height: 34px;
+    border: none;
+    border-radius: 50%;
+    background: #f2f3ef;
+    color: var(--text);
+    font-size: 24px;
+}
+
+.cart-empty {
+    padding: 24px 0;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.cart-items {
+    list-style: none;
+}
+
+.cart-items li {
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 13px;
+}
+
+.cart-summary {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid var(--line);
+    font-size: 14px;
+}
+
+.cart-summary strong {
+    color: var(--green);
+}
+
+.cart-note {
+    margin-top: 15px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+/* =========================================
+   HERO SECTION
+========================================= */
+
+.hero {
+    width: min(1320px, 84%);
+    min-height: 590px;
+    margin: 35px auto 70px;
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    align-items: center;
+    gap: 65px;
+}
+
+.hero-copy {
+    padding: 35px 0;
+}
+
+.eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.hero-copy > .eyebrow {
+    margin-bottom: 25px;
+}
+
+.hero-copy > .eyebrow span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #78a486;
+    box-shadow: 0 0 0 5px #e4eee5;
+}
+
+.hero h1 {
+    font-family: 'Manrope', sans-serif;
+    font-size: clamp(48px, 6.2vw, 82px);
+    line-height: 1.04;
+    letter-spacing: -5px;
+    font-weight: 800;
+}
+
+.hero h1 em {
+    color: var(--green);
+    font-style: normal;
+}
+
+.hero-description {
+    max-width: 410px;
+    margin: 25px 0 30px;
+    color: var(--muted);
+    font-size: 15px;
+    line-height: 1.9;
+}
+
+/* BUTTONS */
+
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    min-height: 52px;
+    padding: 13px 22px;
+    border-radius: 9px;
+    font-size: 12px;
+    font-weight: 700;
+    transition: transform 0.25s ease,
+                box-shadow 0.25s ease,
+                background 0.25s ease;
+}
+
+.button:hover {
+    transform: translateY(-3px);
+}
+
+.button span {
+    font-size: 18px;
+}
+
+.button-dark {
+    background: var(--green);
+    color: white;
+}
+
+.button-dark:hover {
+    background: #244936;
+    box-shadow: 0 10px 25px rgba(49, 93, 72, 0.2);
+}
+
+.button-light {
+    background: #f5f1e8;
+    color: #283d2d;
+}
+
+.button-light:hover {
+    background: white;
+}
+
+.hero-proof {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 35px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.proof-stars {
+    color: #d99d47;
+    font-size: 15px;
+    letter-spacing: 2px;
+}
+
+/* HERO ILLUSTRATION */
+
+.hero-art {
+    position: relative;
+    min-height: 480px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 48% 48% 20px 20px;
+    background: linear-gradient(145deg, #e5ebdf, #dce6d5 55%, #cbdcc9);
+    isolation: isolate;
+}
+
+.hero-art::before {
+    content: "";
+    position: absolute;
+    width: 340px;
+    height: 340px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.36);
+    filter: blur(2px);
+}
+
+.hero-orbit {
+    position: absolute;
+    width: 390px;
+    height: 390px;
+    border: 1px solid rgba(49, 93, 72, 0.22);
+    border-radius: 50%;
+}
+
+.orbit-one {
+    transform: translate(-35px, 20px);
+}
+
+.orbit-two {
+    width: 290px;
+    height: 290px;
+    transform: translate(65px, -40px);
+}
+
+.hero-product {
+    position: absolute;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 170px;
+    height: 170px;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 35px;
+    background: linear-gradient(145deg, #ffffff, #e8ebe5);
+    box-shadow: 0 25px 50px rgba(49, 70, 48, 0.15);
+    font-size: 90px;
+}
+
+.hero-headphones {
+    transform: translate(-65px, -10px) rotate(-10deg);
+}
+
+.hero-watch {
+    width: 125px;
+    height: 155px;
+    border-radius: 28px;
+    transform: translate(85px, 70px) rotate(10deg);
+    font-size: 70px;
+}
+
+.hero-sticker {
+    position: absolute;
+    top: 40px;
+    right: 35px;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #f3e5bd;
+    color: #485b39;
+    font-size: 10px;
+    font-weight: 800;
+    text-align: center;
+    line-height: 1.5;
+    transform: rotate(10deg);
+}
+
+.hero-sticker span {
+    font-size: 22px;
+}
+
+.hero-caption {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    left: 20px;
+    z-index: 4;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 18px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 13px;
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(12px);
+}
+
+.hero-caption span {
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.hero-caption strong {
+    color: #283d2d;
+    font-family: 'Manrope', sans-serif;
+    font-size: 15px;
+}
+
+/* =========================================
+   TRUST STRIP
+========================================= */
+
+.trust-strip {
+    width: min(1320px, 84%);
+    margin: 0 auto;
+    padding: 32px 0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+}
+
+.trust-strip > div {
+    display: grid;
+    grid-template-columns: 35px 1fr;
+    align-items: center;
+    column-gap: 12px;
+}
+
+.trust-strip > div > span {
+    grid-row: span 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: var(--green-light);
+    color: var(--green);
+    font-size: 18px;
+}
+
+.trust-strip strong {
+    font-size: 12px;
+}
+
+.trust-strip small {
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+/* =========================================
+   COLLECTION SECTION
+========================================= */
+
+.section-shell {
+    width: min(1320px, 84%);
+    margin: 0 auto;
+}
+
+.collection {
+    padding-top: 110px;
+    padding-bottom: 110px;
+}
+
+.section-top {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.section-top .eyebrow {
+    margin-bottom: 13px;
+}
+
+.section-top h2,
+.closing-banner h2 {
+    font-family: 'Manrope', sans-serif;
+    font-size: clamp(34px, 4vw, 50px);
+    line-height: 1.2;
+    letter-spacing: -2px;
+    font-weight: 800;
+}
+
+.section-top h2 em {
+    color: var(--green);
+    font-style: normal;
+}
+
+.section-intro {
+    max-width: 280px;
+    color: var(--muted);
+    font-size: 13px;
+}
+
+/* =========================================
+   FILTERS & SORT
+========================================= */
+
+.collection-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.filter-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+}
+
+.filter-button {
+    padding: 10px 17px;
+    border: 1px solid #e2e3dc;
+    border-radius: 30px;
+    background: white;
+    color: #666a63;
+    font-size: 11px;
+    font-weight: 700;
+    transition: background 0.25s ease,
+                color 0.25s ease,
+                border-color 0.25s ease;
+}
+
+.filter-button:hover {
+    border-color: #a9bca9;
+    color: var(--green);
+}
+
+.filter-button.is-active {
+    background: var(--green);
+    border-color: var(--green);
+    color: white;
+}
+
+.sort-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.sort-control select {
+    max-width: 190px;
+    padding: 10px 12px;
+    border: 1px solid #e2e3dc;
+    border-radius: 8px;
+    background: white;
+    color: var(--text);
+    font-size: 11px;
+}
+
+/* =========================================
+   PRODUCT GRID & CARDS
+========================================= */
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 25px;
+}
+
+.product-card {
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid #ecebe5;
+    border-radius: var(--radius);
+    background: white;
+    transition: transform 0.3s ease,
+                box-shadow 0.3s ease,
+                border-color 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-6px);
+    border-color: #d6dfd3;
+    box-shadow: var(--shadow);
+}
+
+/* PRODUCT ART */
+
+.product-art {
+    position: relative;
+    min-height: 275px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-art::before {
+    content: "";
+    position: absolute;
+    width: 180px;
+    height: 180px;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    transition: transform 0.5s ease;
+}
+
+.product-art::after {
+    content: "";
+    position: absolute;
+    width: 225px;
+    height: 225px;
+    border: 1px solid rgba(255, 255, 255, 0.42);
+    border-radius: 50%;
+    transition: transform 0.5s ease;
+}
+
+.product-card:hover .product-art::before {
+    transform: scale(1.12);
+}
+
+.product-card:hover .product-art::after {
+    transform: scale(0.92);
+}
+
+.art-lilac {
+    background: linear-gradient(135deg, #e8ddf5, #d8c9ec);
+}
+
+.art-peach {
+    background: linear-gradient(135deg, #f8e3d7, #f3cbb8);
+}
+
+.art-mint {
+    background: linear-gradient(135deg, #d9eee3, #b9ddca);
+}
+
+.art-blue {
+    background: linear-gradient(135deg, #dbe8fa, #b9d2f4);
+}
+
+.art-yellow {
+    background: linear-gradient(135deg, #f7ecc9, #eadba5);
+}
+
+.art-coral {
+    background: linear-gradient(135deg, #f8dcd5, #efbdb1);
+}
+
+.product-emoji {
+    position: relative;
+    z-index: 2;
+    font-size: 92px;
+    filter: drop-shadow(0 15px 12px rgba(40, 40, 40, 0.12));
+    transition: transform 0.4s ease;
+}
+
+.product-card:hover .product-emoji {
+    transform: scale(1.1) rotate(-5deg);
+}
+
+.product-label {
+    position: absolute;
+    top: 17px;
+    left: 17px;
+    z-index: 3;
+    padding: 7px 11px;
+    border-radius: 30px;
+    background: rgba(255, 255, 255, 0.85);
+    color: #475849;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.label-new {
+    background: #fff;
+    color: #765c35;
+}
+
+.label-sale {
+    background: #fff0e9;
+    color: #aa533a;
+}
+
+.art-sparkle {
+    position: absolute;
+    right: 28px;
+    bottom: 23px;
+    z-index: 2;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 32px;
+    transition: transform 0.5s ease;
+}
+
+.product-card:hover .art-sparkle {
+    transform: rotate(45deg) scale(1.2);
+}
+
+/* PRODUCT INFORMATION */
+
+.product-info {
+    padding: 22px 20px 20px;
+}
+
+.product-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 12px;
+    color: #8a8d84;
+    font-size: 10px;
+}
+
+.rating {
+    color: #d6a34d;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+.rating small {
+    color: #92948c;
+    font-size: 10px;
+    letter-spacing: 0;
+}
+
+.product-info h3 {
+    margin-bottom: 7px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 17px;
+    font-weight: 800;
+    letter-spacing: -0.3px;
+}
+
+.product-info > p {
+    min-height: 25px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.product-buy {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 20px;
+    padding-top: 17px;
+    border-top: 1px solid #f0efe9;
+}
+
+.product-buy strong {
+    font-family: 'Manrope', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.add-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 13px;
+    border: 1px solid #dce5dc;
+    border-radius: 9px;
+    background: #f5f8f3;
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 800;
+    transition: background 0.25s ease,
+                color 0.25s ease,
+                transform 0.25s ease;
+}
+
+.add-button span {
+    font-size: 16px;
+}
+
+.add-button:hover {
+    background: var(--green);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.add-button:active {
+    transform: scale(0.97);
+}
+
+.no-results {
+    padding: 55px 20px;
+    color: var(--muted);
+    text-align: center;
+    font-size: 14px;
+}
+
+/* =========================================
+   CLOSING BANNER
+========================================= */
+
+.closing-banner {
+    position: relative;
+    width: min(1320px, 84%);
+    min-height: 330px;
+    margin: 0 auto 100px;
+    padding: 55px 65px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr 0.8fr;
+    align-items: center;
+    gap: 25px 60px;
+    border-radius: 25px;
+    background: linear-gradient(120deg, #dfe9dc, #d1e0d0);
+    isolation: isolate;
+}
+
+.closing-banner .eyebrow {
+    margin-bottom: 18px;
+}
+
+.closing-banner h2 em {
+    color: var(--green);
+    font-style: normal;
+}
+
+.closing-banner > p {
+    max-width: 350px;
+    color: #647365;
+    font-size: 13px;
+    line-height: 1.9;
+}
+
+.closing-banner .button {
+    justify-self: start;
+}
+
+.banner-sun {
+    position: absolute;
+    top: -100px;
+    right: -50px;
+    z-index: -1;
+    color: rgba(255, 255, 255, 0.35);
+    font-size: 350px;
+    line-height: 1;
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.site-footer {
+    width: min(1320px, 84%);
+    margin: 0 auto;
+    padding: 35px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+    border-top: 1px solid var(--line);
+}
+
+.site-footer .brand {
+    font-size: 25px;
+}
+
+.site-footer p {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.site-footer p span {
+    margin-left: 8px;
+}
+
+.site-footer > a:last-child {
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.site-footer > a:last-child:hover {
+    text-decoration: underline;
+}
+
+/* =========================================
+   TOAST NOTIFICATION
+========================================= */
+
+.toast {
+    position: fixed;
+    right: 25px;
+    bottom: 25px;
+    z-index: 500;
+    max-width: min(350px, calc(100vw - 40px));
+    padding: 15px 20px;
+    border: 1px solid #dce8dc;
+    border-radius: 12px;
+    background: white;
+    color: var(--green);
+    box-shadow: 0 10px 35px rgba(30, 50, 30, 0.13);
+    font-size: 13px;
+}
+
+/* =========================================
+   TABLET RESPONSIVE
+========================================= */
+
+@media (max-width: 1050px) {
+    .nav-shell {
+        width: 92%;
+        gap: 20px;
+    }
+
+    .nav-links {
+        gap: 18px;
+    }
+
+    .search-box {
+        width: 145px;
+    }
+
+    .hero {
+        width: 88%;
+        gap: 35px;
+        min-height: 520px;
+    }
+
+    .hero h1 {
+        font-size: clamp(45px, 6vw, 65px);
+        letter-spacing: -3px;
+    }
+
+    .hero-art {
+        min-height: 410px;
+    }
+
+    .section-shell,
+    .trust-strip,
+    .closing-banner,
+    .site-footer {
+        width: 88%;
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .trust-strip {
+        grid-template-columns: repeat(2, 1fr);
+        row-gap: 25px;
+    }
+
+    .closing-banner {
+        padding: 45px;
+    }
+}
+
+/* =========================================
+   MOBILE RESPONSIVE
+========================================= */
+
+@media (max-width: 700px) {
+    .announcement {
+        padding: 8px 12px;
+        font-size: 9px;
+        flex-wrap: wrap;
+        gap: 5px 9px;
+    }
+
+    .nav-shell {
+        width: 90%;
+        min-height: auto;
+        padding: 17px 0;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 15px;
+    }
+
+    .brand {
+        font-size: 27px;
+    }
+
+    .nav-links {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        justify-content: flex-start;
+        gap: 22px;
+        overflow-x: auto;
+    }
+
+    .nav-links a {
+        flex-shrink: 0;
+        font-size: 12px;
+    }
+
+    .nav-actions {
+        gap: 8px;
+    }
+
+    .search-box {
+        width: 40px;
+        height: 40px;
+        justify-content: center;
+        padding: 8px;
+        overflow: hidden;
+    }
+
+    .search-box input {
+        width: 0;
+        padding: 0;
+        opacity: 0;
+    }
+
+    .search-box:focus-within {
+        width: 140px;
+    }
+
+    .search-box:focus-within input {
+        width: 100%;
+        opacity: 1;
+    }
+
+    .cart-toggle {
+        gap: 5px;
+        padding: 8px;
+    }
+
+    .cart-label {
+        display: none;
+    }
+
+    .cart-count {
+        width: 19px;
+        height: 19px;
+    }
+
+    .cart-panel {
+        right: 5%;
+        width: 90%;
+        padding: 20px;
+    }
+
+    .hero {
+        width: 90%;
+        min-height: auto;
+        margin: 30px auto 45px;
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .hero-copy {
+        padding: 20px 0 0;
+    }
+
+    .hero-copy > .eyebrow {
+        margin-bottom: 20px;
+    }
+
+    .hero h1 {
+        font-size: clamp(47px, 11vw, 70px);
+        letter-spacing: -3px;
+    }
+
+    .hero-description {
+        margin: 20px 0 25px;
+        font-size: 13px;
+    }
+
+    .hero-proof {
+        margin-top: 25px;
+    }
+
+    .hero-art {
+        min-height: 390px;
+        border-radius: 190px 190px 18px 18px;
+    }
+
+    .hero-product {
+        width: 135px;
+        height: 135px;
+        font-size: 72px;
+    }
+
+    .hero-headphones {
+        transform: translate(-48px, -5px) rotate(-10deg);
+    }
+
+    .hero-watch {
+        width: 100px;
+        height: 125px;
+        transform: translate(65px, 55px) rotate(10deg);
+        font-size: 55px;
+    }
+
+    .hero-sticker {
+        top: 25px;
+        right: 20px;
+        width: 82px;
+        height: 82px;
+        font-size: 8px;
+    }
+
+    .hero-caption {
+        right: 12px;
+        bottom: 12px;
+        left: 12px;
+        padding: 14px;
+    }
+
+    .trust-strip,
+    .section-shell,
+    .closing-banner,
+    .site-footer {
+        width: 90%;
+    }
+
+    .trust-strip {
+        padding: 25px 0;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 22px 12px;
+    }
+
+    .trust-strip > div {
+        grid-template-columns: 30px 1fr;
+        column-gap: 8px;
+    }
+
+    .trust-strip > div > span {
+        width: 30px;
+        height: 30px;
+        font-size: 15px;
+    }
+
+    .trust-strip strong {
+        font-size: 11px;
+    }
+
+    .trust-strip small {
+        font-size: 9px;
+    }
+
+    .collection {
+        padding-top: 75px;
+        padding-bottom: 75px;
+    }
+
+    .section-top {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+        margin-bottom: 28px;
+    }
+
+    .section-top h2,
+    .closing-banner h2 {
+        font-size: 37px;
+        letter-spacing: -1.5px;
+    }
+
+    .section-intro {
+        font-size: 12px;
+    }
+
+    .collection-controls {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .filter-list {
+        gap: 8px;
+    }
+
+    .filter-button {
+        padding: 9px 13px;
+        font-size: 10px;
+    }
+
+    .sort-control {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .sort-control select {
+        flex: 1;
+        max-width: 210px;
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 13px;
+    }
+
+    .product-card {
+        border-radius: 15px;
+    }
+
+    .product-art {
+        min-height: 175px;
+    }
+
+    .product-art::before {
+        width: 120px;
+        height: 120px;
+    }
+
+    .product-art::after {
+        width: 145px;
+        height: 145px;
+    }
+
+    .product-emoji {
+        font-size: 61px;
+    }
+
+    .product-label {
+        top: 10px;
+        left: 9px;
+        padding: 5px 7px;
+        font-size: 8px;
+    }
+
+    .art-sparkle {
+        right: 10px;
+        bottom: 9px;
+        font-size: 22px;
+    }
+
+    .product-info {
+        padding: 13px 11px;
+    }
+
+    .product-meta {
+        flex-wrap: wrap;
+        gap: 5px;
+        font-size: 9px;
+    }
+
+    .rating {
+        font-size: 9px;
+        letter-spacing: 0;
+    }
+
+    .rating small {
+        font-size: 9px;
+    }
+
+    .product-info h3 {
+        font-size: 14px;
+        line-height: 1.4;
+    }
+
+    .product-info > p {
+        min-height: 38px;
+        font-size: 10px;
+        line-height: 1.5;
+    }
+
+    .product-buy {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 11px;
+        margin-top: 14px;
+        padding-top: 13px;
+    }
+
+    .product-buy strong {
+        font-size: 16px;
+    }
+
+    .add-button {
+        width: 100%;
+        padding: 9px 7px;
+        font-size: 10px;
+    }
+
+    .closing-banner {
+        min-height: auto;
+        margin-bottom: 65px;
+        padding: 35px 25px;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        border-radius: 19px;
+    }
+
+    .closing-banner h2 {
+        font-size: 34px;
+    }
+
+    .closing-banner > p {
+        font-size: 12px;
+    }
+
+    .banner-sun {
+        top: -40px;
+        right: -35px;
+        font-size: 210px;
+    }
+
+    .site-footer {
+        padding: 25px 0;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .site-footer .brand {
+        font-size: 23px;
+    }
+
+    .site-footer p {
+        order: 3;
+        width: 100%;
+        font-size: 10px;
+    }
+
+    .site-footer p span {
+        margin-left: 5px;
+    }
+
+    .site-footer > a:last-child {
+        font-size: 10px;
+    }
+
+    .toast {
+        right: 15px;
+        bottom: 15px;
+        font-size: 12px;
+    }
+}
+
+/* =========================================
+   SMALL PHONES
+========================================= */
+
+@media (max-width: 380px) {
+    .hero-art {
+        min-height: 340px;
+    }
+
+    .product-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .product-art {
+        min-height: 230px;
+    }
+
+    .product-emoji {
+        font-size: 78px;
+    }
+
+    .product-info {
+        padding: 18px;
+    }
+
+    .product-buy {
+        align-items: center;
+        flex-direction: row;
+    }
+
+    .add-button {
+        width: auto;
+        padding: 10px 12px;
+    }
+
+    .trust-strip {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================
+   REDUCED MOTION
+========================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}</style>
+</body>
+
+</html>

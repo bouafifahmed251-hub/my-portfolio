@@ -1,0 +1,1907 @@
+<html lang="fr"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voyage - Réservation de Vols </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1e40af',
+                        secondary: '#3b82f6',
+                        accent: '#f59e0b',
+                        dark: '#0f172a',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        .hero-bg {
+            background: linear-gradient(135deg, rgba(14, 78, 100, 0.726) 0%, rgba(8, 24, 77, 0.7) 100%),
+                        url('https://images.unsplash.com/photo-1436491865332-7a61a109db05?w=1920') center/cover no-repeat;
+        }
+        
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+        }
+        
+        .flight-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+        }
+        
+        .flight-card:hover {
+            border-left-color: #0091ff;
+            background: #ffffff;
+        }
+        
+        .pulse-dot {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .gradient-text {
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .form-input-focus:focus {
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+        
+        .scroll-smooth {
+            scroll-behavior: smooth;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+        }
+        
+        .destination-overlay {
+            background: linear-gradient(to top, rgba(11, 106, 207, 0.999) 0%, transparent 60%);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+        }
+        
+        .nav-scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-overlay {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+        }
+
+        .timeline-line {
+            background: linear-gradient(to bottom, #000000, #000000);
+        }
+
+        .price-tag {
+            background: linear-gradient(135deg, #d94141, #d97706);
+        }
+    </style>
+<style>*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgb(59 130 246 / 0.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/* ! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com */*,::after,::before{box-sizing:border-box;border-width:0;border-style:solid;border-color:#e5e7eb}::after,::before{--tw-content:''}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;tab-size:4;font-family:ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0;padding:0}legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.inset-0{inset:0px}.bottom-1\/3{bottom:33.333333%}.left-1\/4{left:25%}.left-10{left:2.5rem}.right-0{right:0px}.right-20{right:5rem}.top-0{top:0px}.top-1\/3{top:33.333333%}.top-1\/4{top:25%}.z-50{z-index:50}.mx-1{margin-left:0.25rem;margin-right:0.25rem}.mx-4{margin-left:1rem;margin-right:1rem}.mx-auto{margin-left:auto;margin-right:auto}.mb-1{margin-bottom:0.25rem}.mb-10{margin-bottom:2.5rem}.mb-12{margin-bottom:3rem}.mb-16{margin-bottom:4rem}.mb-2{margin-bottom:0.5rem}.mb-3{margin-bottom:0.75rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.mb-8{margin-bottom:2rem}.ml-2{margin-left:0.5rem}.ml-auto{margin-left:auto}.mr-1{margin-right:0.25rem}.mr-2{margin-right:0.5rem}.mt-0\.5{margin-top:0.125rem}.mt-1{margin-top:0.25rem}.mt-3{margin-top:0.75rem}.mt-4{margin-top:1rem}.mt-6{margin-top:1.5rem}.block{display:block}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.hidden{display:none}.h-0\.5{height:0.125rem}.h-10{height:2.5rem}.h-12{height:3rem}.h-16{height:4rem}.h-2{height:0.5rem}.h-20{height:5rem}.h-4{height:1rem}.h-6{height:1.5rem}.h-72{height:18rem}.h-8{height:2rem}.min-h-screen{min-height:100vh}.w-10{width:2.5rem}.w-12{width:3rem}.w-16{width:4rem}.w-2{width:0.5rem}.w-20{width:5rem}.w-4{width:1rem}.w-8{width:2rem}.w-full{width:100%}.max-w-2xl{max-width:42rem}.max-w-7xl{max-width:80rem}.max-w-lg{max-width:32rem}.max-w-md{max-width:28rem}.flex-1{flex:1 1 0%}.flex-shrink-0{flex-shrink:0}.transform{transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.cursor-pointer{cursor:pointer}.resize-none{resize:none}.grid-cols-1{grid-template-columns:repeat(1, minmax(0, 1fr))}.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-start{align-items:flex-start}.items-center{align-items:center}.items-baseline{align-items:baseline}.justify-end{justify-content:flex-end}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-10{gap:2.5rem}.gap-12{gap:3rem}.gap-3{gap:0.75rem}.gap-4{gap:1rem}.gap-6{gap:1.5rem}.gap-8{gap:2rem}.space-x-0\.5 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(0.125rem * var(--tw-space-x-reverse));margin-left:calc(0.125rem * calc(1 - var(--tw-space-x-reverse)))}.space-x-1 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(0.25rem * var(--tw-space-x-reverse));margin-left:calc(0.25rem * calc(1 - var(--tw-space-x-reverse)))}.space-x-2 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(0.5rem * var(--tw-space-x-reverse));margin-left:calc(0.5rem * calc(1 - var(--tw-space-x-reverse)))}.space-x-3 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(0.75rem * var(--tw-space-x-reverse));margin-left:calc(0.75rem * calc(1 - var(--tw-space-x-reverse)))}.space-x-4 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(1rem * var(--tw-space-x-reverse));margin-left:calc(1rem * calc(1 - var(--tw-space-x-reverse)))}.space-x-6 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(1.5rem * var(--tw-space-x-reverse));margin-left:calc(1.5rem * calc(1 - var(--tw-space-x-reverse)))}.space-x-8 > :not([hidden]) ~ :not([hidden]){--tw-space-x-reverse:0;margin-right:calc(2rem * var(--tw-space-x-reverse));margin-left:calc(2rem * calc(1 - var(--tw-space-x-reverse)))}.space-y-3 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(0.75rem * var(--tw-space-y-reverse))}.space-y-4 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1rem * var(--tw-space-y-reverse))}.space-y-5 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.25rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.25rem * var(--tw-space-y-reverse))}.space-y-6 > :not([hidden]) ~ :not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.5rem * calc(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.5rem * var(--tw-space-y-reverse))}.overflow-hidden{overflow:hidden}.scroll-smooth{scroll-behavior:smooth}.rounded{border-radius:0.25rem}.rounded-2xl{border-radius:1rem}.rounded-3xl{border-radius:1.5rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:0.5rem}.rounded-xl{border-radius:0.75rem}.rounded-b-2xl{border-bottom-right-radius:1rem;border-bottom-left-radius:1rem}.rounded-l-xl{border-top-left-radius:0.75rem;border-bottom-left-radius:0.75rem}.rounded-r-xl{border-top-right-radius:0.75rem;border-bottom-right-radius:0.75rem}.rounded-bl-xl{border-bottom-left-radius:0.75rem}.border{border-width:1px}.border-t{border-top-width:1px}.border-accent\/50{border-color:rgb(245 158 11 / 0.5)}.border-gray-100{--tw-border-opacity:1;border-color:rgb(243 244 246 / var(--tw-border-opacity, 1))}.border-gray-200{--tw-border-opacity:1;border-color:rgb(229 231 235 / var(--tw-border-opacity, 1))}.border-white\/10{border-color:rgb(255 255 255 / 0.1)}.border-white\/20{border-color:rgb(255 255 255 / 0.2)}.bg-accent{--tw-bg-opacity:1;background-color:rgb(245 158 11 / var(--tw-bg-opacity, 1))}.bg-accent\/20{background-color:rgb(245 158 11 / 0.2)}.bg-amber-100{--tw-bg-opacity:1;background-color:rgb(254 243 199 / var(--tw-bg-opacity, 1))}.bg-amber-600{--tw-bg-opacity:1;background-color:rgb(217 119 6 / var(--tw-bg-opacity, 1))}.bg-blue-100{--tw-bg-opacity:1;background-color:rgb(219 234 254 / var(--tw-bg-opacity, 1))}.bg-dark{--tw-bg-opacity:1;background-color:rgb(15 23 42 / var(--tw-bg-opacity, 1))}.bg-gray-200{--tw-bg-opacity:1;background-color:rgb(229 231 235 / var(--tw-bg-opacity, 1))}.bg-gray-300{--tw-bg-opacity:1;background-color:rgb(209 213 219 / var(--tw-bg-opacity, 1))}.bg-gray-50{--tw-bg-opacity:1;background-color:rgb(249 250 251 / var(--tw-bg-opacity, 1))}.bg-green-100{--tw-bg-opacity:1;background-color:rgb(220 252 231 / var(--tw-bg-opacity, 1))}.bg-green-400{--tw-bg-opacity:1;background-color:rgb(74 222 128 / var(--tw-bg-opacity, 1))}.bg-green-500{--tw-bg-opacity:1;background-color:rgb(34 197 94 / var(--tw-bg-opacity, 1))}.bg-green-500\/20{background-color:rgb(34 197 94 / 0.2)}.bg-green-600{--tw-bg-opacity:1;background-color:rgb(22 163 74 / var(--tw-bg-opacity, 1))}.bg-indigo-100{--tw-bg-opacity:1;background-color:rgb(224 231 255 / var(--tw-bg-opacity, 1))}.bg-indigo-600{--tw-bg-opacity:1;background-color:rgb(79 70 229 / var(--tw-bg-opacity, 1))}.bg-primary{--tw-bg-opacity:1;background-color:rgb(30 64 175 / var(--tw-bg-opacity, 1))}.bg-primary\/10{background-color:rgb(30 64 175 / 0.1)}.bg-primary\/20{background-color:rgb(30 64 175 / 0.2)}.bg-purple-100{--tw-bg-opacity:1;background-color:rgb(243 232 255 / var(--tw-bg-opacity, 1))}.bg-purple-600{--tw-bg-opacity:1;background-color:rgb(147 51 234 / var(--tw-bg-opacity, 1))}.bg-red-100{--tw-bg-opacity:1;background-color:rgb(254 226 226 / var(--tw-bg-opacity, 1))}.bg-red-500{--tw-bg-opacity:1;background-color:rgb(239 68 68 / var(--tw-bg-opacity, 1))}.bg-red-500\/20{background-color:rgb(239 68 68 / 0.2)}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255 / var(--tw-bg-opacity, 1))}.bg-white\/10{background-color:rgb(255 255 255 / 0.1)}.bg-white\/20{background-color:rgb(255 255 255 / 0.2)}.bg-gradient-to-br{background-image:linear-gradient(to bottom right, var(--tw-gradient-stops))}.bg-gradient-to-r{background-image:linear-gradient(to right, var(--tw-gradient-stops))}.from-accent{--tw-gradient-from:#f59e0b var(--tw-gradient-from-position);--tw-gradient-to:rgb(245 158 11 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-amber-600{--tw-gradient-from:#d97706 var(--tw-gradient-from-position);--tw-gradient-to:rgb(217 119 6 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-dark{--tw-gradient-from:#0f172a var(--tw-gradient-from-position);--tw-gradient-to:rgb(15 23 42 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-green-600{--tw-gradient-from:#16a34a var(--tw-gradient-from-position);--tw-gradient-to:rgb(22 163 74 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-indigo-600{--tw-gradient-from:#4f46e5 var(--tw-gradient-from-position);--tw-gradient-to:rgb(79 70 229 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-primary{--tw-gradient-from:#1e40af var(--tw-gradient-from-position);--tw-gradient-to:rgb(30 64 175 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-purple-600{--tw-gradient-from:#9333ea var(--tw-gradient-from-position);--tw-gradient-to:rgb(147 51 234 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-red-500{--tw-gradient-from:#ef4444 var(--tw-gradient-from-position);--tw-gradient-to:rgb(239 68 68 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.from-yellow-400{--tw-gradient-from:#facc15 var(--tw-gradient-from-position);--tw-gradient-to:rgb(250 204 21 / 0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from), var(--tw-gradient-to)}.to-accent{--tw-gradient-to:#f59e0b var(--tw-gradient-to-position)}.to-amber-600{--tw-gradient-to:#d97706 var(--tw-gradient-to-position)}.to-green-600{--tw-gradient-to:#16a34a var(--tw-gradient-to-position)}.to-indigo-600{--tw-gradient-to:#4f46e5 var(--tw-gradient-to-position)}.to-primary{--tw-gradient-to:#1e40af var(--tw-gradient-to-position)}.to-purple-600{--tw-gradient-to:#9333ea var(--tw-gradient-to-position)}.to-red-500{--tw-gradient-to:#ef4444 var(--tw-gradient-to-position)}.to-secondary{--tw-gradient-to:#3b82f6 var(--tw-gradient-to-position)}.to-yellow-400{--tw-gradient-to:#facc15 var(--tw-gradient-to-position)}.object-cover{object-fit:cover}.p-3{padding:0.75rem}.p-4{padding:1rem}.p-6{padding:1.5rem}.p-8{padding:2rem}.px-2{padding-left:0.5rem;padding-right:0.5rem}.px-3{padding-left:0.75rem;padding-right:0.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.py-1{padding-top:0.25rem;padding-bottom:0.25rem}.py-2{padding-top:0.5rem;padding-bottom:0.5rem}.py-2\.5{padding-top:0.625rem;padding-bottom:0.625rem}.py-20{padding-top:5rem;padding-bottom:5rem}.py-3{padding-top:0.75rem;padding-bottom:0.75rem}.py-3\.5{padding-top:0.875rem;padding-bottom:0.875rem}.py-4{padding-top:1rem;padding-bottom:1rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.pb-12{padding-bottom:3rem}.pb-8{padding-bottom:2rem}.pt-16{padding-top:4rem}.pt-24{padding-top:6rem}.pt-8{padding-top:2rem}.text-center{text-align:center}.text-right{text-align:right}.font-mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-4xl{font-size:2.25rem;line-height:2.5rem}.text-5xl{font-size:3rem;line-height:1}.text-6xl{font-size:3.75rem;line-height:1}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:0.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:0.75rem;line-height:1rem}.font-bold{font-weight:700}.font-medium{font-weight:500}.font-semibold{font-weight:600}.uppercase{text-transform:uppercase}.leading-tight{line-height:1.25}.tracking-wider{letter-spacing:0.05em}.text-accent{--tw-text-opacity:1;color:rgb(245 158 11 / var(--tw-text-opacity, 1))}.text-amber-500{--tw-text-opacity:1;color:rgb(245 158 11 / var(--tw-text-opacity, 1))}.text-amber-600{--tw-text-opacity:1;color:rgb(217 119 6 / var(--tw-text-opacity, 1))}.text-dark{--tw-text-opacity:1;color:rgb(15 23 42 / var(--tw-text-opacity, 1))}.text-gray-400{--tw-text-opacity:1;color:rgb(156 163 175 / var(--tw-text-opacity, 1))}.text-gray-500{--tw-text-opacity:1;color:rgb(107 114 128 / var(--tw-text-opacity, 1))}.text-gray-600{--tw-text-opacity:1;color:rgb(75 85 99 / var(--tw-text-opacity, 1))}.text-gray-700{--tw-text-opacity:1;color:rgb(55 65 81 / var(--tw-text-opacity, 1))}.text-gray-800{--tw-text-opacity:1;color:rgb(31 41 55 / var(--tw-text-opacity, 1))}.text-green-400{--tw-text-opacity:1;color:rgb(74 222 128 / var(--tw-text-opacity, 1))}.text-green-500{--tw-text-opacity:1;color:rgb(34 197 94 / var(--tw-text-opacity, 1))}.text-green-600{--tw-text-opacity:1;color:rgb(22 163 74 / var(--tw-text-opacity, 1))}.text-indigo-600{--tw-text-opacity:1;color:rgb(79 70 229 / var(--tw-text-opacity, 1))}.text-primary{--tw-text-opacity:1;color:rgb(30 64 175 / var(--tw-text-opacity, 1))}.text-purple-600{--tw-text-opacity:1;color:rgb(147 51 234 / var(--tw-text-opacity, 1))}.text-red-400{--tw-text-opacity:1;color:rgb(248 113 113 / var(--tw-text-opacity, 1))}.text-red-500{--tw-text-opacity:1;color:rgb(239 68 68 / var(--tw-text-opacity, 1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.text-white\/40{color:rgb(255 255 255 / 0.4)}.text-white\/60{color:rgb(255 255 255 / 0.6)}.text-white\/70{color:rgb(255 255 255 / 0.7)}.text-white\/80{color:rgb(255 255 255 / 0.8)}.text-white\/90{color:rgb(255 255 255 / 0.9)}.text-yellow-400{--tw-text-opacity:1;color:rgb(250 204 21 / var(--tw-text-opacity, 1))}.line-through{-webkit-text-decoration-line:line-through;text-decoration-line:line-through}.placeholder-gray-400::placeholder{--tw-placeholder-opacity:1;color:rgb(156 163 175 / var(--tw-placeholder-opacity, 1))}.opacity-10{opacity:0.1}.opacity-15{opacity:0.15}.opacity-20{opacity:0.2}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-md{--tw-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-sm{--tw-shadow:0 1px 2px 0 rgb(0 0 0 / 0.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.shadow-xl{--tw-shadow:0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.outline-none{outline:2px solid transparent;outline-offset:2px}.backdrop-blur-sm{--tw-backdrop-blur:blur(4px);-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-colors{transition-property:color, background-color, border-color, fill, stroke, -webkit-text-decoration-color;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke;transition-property:color, background-color, border-color, text-decoration-color, fill, stroke, -webkit-text-decoration-color;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.transition-transform{transition-property:transform;transition-timing-function:cubic-bezier(0.4, 0, 0.2, 1);transition-duration:150ms}.duration-300{transition-duration:300ms}.duration-500{transition-duration:500ms}.hover\:border-primary:hover{--tw-border-opacity:1;border-color:rgb(30 64 175 / var(--tw-border-opacity, 1))}.hover\:bg-amber-700:hover{--tw-bg-opacity:1;background-color:rgb(180 83 9 / var(--tw-bg-opacity, 1))}.hover\:bg-green-700:hover{--tw-bg-opacity:1;background-color:rgb(21 128 61 / var(--tw-bg-opacity, 1))}.hover\:bg-indigo-700:hover{--tw-bg-opacity:1;background-color:rgb(67 56 202 / var(--tw-bg-opacity, 1))}.hover\:bg-primary:hover{--tw-bg-opacity:1;background-color:rgb(30 64 175 / var(--tw-bg-opacity, 1))}.hover\:bg-purple-700:hover{--tw-bg-opacity:1;background-color:rgb(126 34 206 / var(--tw-bg-opacity, 1))}.hover\:bg-red-600:hover{--tw-bg-opacity:1;background-color:rgb(220 38 38 / var(--tw-bg-opacity, 1))}.hover\:bg-white\/20:hover{background-color:rgb(255 255 255 / 0.2)}.hover\:bg-yellow-500:hover{--tw-bg-opacity:1;background-color:rgb(234 179 8 / var(--tw-bg-opacity, 1))}.hover\:text-accent:hover{--tw-text-opacity:1;color:rgb(245 158 11 / var(--tw-text-opacity, 1))}.hover\:text-primary:hover{--tw-text-opacity:1;color:rgb(30 64 175 / var(--tw-text-opacity, 1))}.hover\:text-white:hover{--tw-text-opacity:1;color:rgb(255 255 255 / var(--tw-text-opacity, 1))}.hover\:shadow-xl:hover{--tw-shadow:0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);--tw-shadow-colored:0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow)}.focus\:border-accent:focus{--tw-border-opacity:1;border-color:rgb(245 158 11 / var(--tw-border-opacity, 1))}.focus\:border-primary:focus{--tw-border-opacity:1;border-color:rgb(30 64 175 / var(--tw-border-opacity, 1))}.focus\:ring-2:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)}.focus\:ring-primary\/20:focus{--tw-ring-color:rgb(30 64 175 / 0.2)}.group:hover .group-hover\:scale-110{--tw-scale-x:1.1;--tw-scale-y:1.1;transform:translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}@media (min-width: 640px){.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}}@media (min-width: 768px){.md\:mt-0{margin-top:0px}.md\:flex{display:flex}.md\:hidden{display:none}.md\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.md\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.md\:grid-cols-4{grid-template-columns:repeat(4, minmax(0, 1fr))}.md\:flex-row{flex-direction:row}.md\:text-4xl{font-size:2.25rem;line-height:2.5rem}.md\:text-5xl{font-size:3rem;line-height:1}}@media (min-width: 1024px){.lg\:col-span-2{grid-column:span 2 / span 2}.lg\:grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}.lg\:grid-cols-3{grid-template-columns:repeat(3, minmax(0, 1fr))}.lg\:grid-cols-4{grid-template-columns:repeat(4, minmax(0, 1fr))}.lg\:flex-row{flex-direction:row}.lg\:items-center{align-items:center}.lg\:p-10{padding:2.5rem}.lg\:px-8{padding-left:2rem;padding-right:2rem}.lg\:text-6xl{font-size:3.75rem;line-height:1}}</style></head>
+<body class="scroll-smooth bg-gray-50">
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300 nav-scrolled">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center space-x-2">
+                    <i class="fas fa-plane text-2xl text-accent"></i>
+                    <span class="text-2xl font-bold nav-text text-gray-800 text-gray-700" id="logoText">VoyageElite</span>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#accueil" class="nav-text hover:text-accent transition-colors font-medium text-gray-700">Accueil</a>
+                    <a href="#destinations" class="nav-text hover:text-accent transition-colors font-medium text-gray-700">Destinations</a>
+                    <a href="#vols" class="nav-text hover:text-accent transition-colors font-medium text-gray-700">Vols</a>
+                    <a href="#reservation" class="nav-text hover:text-accent transition-colors font-medium text-gray-700">Réservation</a>
+                    <a href="#contact" class="nav-text hover:text-accent transition-colors font-medium text-gray-700">Contact</a>
+                    <button class="btn-primary text-white px-6 py-2.5 rounded-full font-medium text-sm">
+                        <i class="fas fa-user mr-2"></i>Mon Compte
+                    </button>
+                </div>
+                
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuBtn" class="md:hidden text-white nav-text text-gray-700">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white shadow-xl rounded-b-2xl">
+            <div class="px-4 py-6 space-y-4">
+                <a href="#accueil" class="block text-gray-700 hover:text-primary font-medium py-2">Accueil</a>
+                <a href="#destinations" class="block text-gray-700 hover:text-primary font-medium py-2">Destinations</a>
+                <a href="#vols" class="block text-gray-700 hover:text-primary font-medium py-2">Vols</a>
+                <a href="#reservation" class="block text-gray-700 hover:text-primary font-medium py-2">Réservation</a>
+                <a href="#contact" class="block text-gray-700 hover:text-primary font-medium py-2">Contact</a>
+                <button class="w-full btn-primary text-white px-6 py-3 rounded-full font-medium">
+                    <i class="fas fa-user mr-2"></i>Mon Compte
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="accueil" class="hero-bg min-h-screen flex items-center relative overflow-hidden">
+        <!-- Floating Elements -->
+        <div class="absolute top-1/4 left-10 float-animation opacity-20">
+            <i class="fas fa-plane text-white text-4xl"></i>
+        </div>
+        <div class="absolute top-1/3 right-20 float-animation opacity-15" style="animation-delay: 1s;">
+            <i class="fas fa-cloud text-white text-6xl"></i>
+        </div>
+        <div class="absolute bottom-1/3 left-1/4 float-animation opacity-10" style="animation-delay: 2s;">
+            <i class="fas fa-globe text-white text-5xl"></i>
+        </div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-24 pb-12">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <!-- Hero Text -->
+                <div>
+                    <div class="inline-flex items-center bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
+                        <span class="w-2 h-2 bg-green-400 rounded-full mr-2 pulse-dot"></span>
+                        <span class="text-white/90 text-sm">Plus de 500 destinations disponibles</span>
+                    </div>
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight mb-6">
+                        Explorez le monde avec 
+                        <span class="text-accent">VoyageElite</span>
+                    </h1>
+                    <p class="text-white/80 text-lg mb-8 max-w-lg">
+                        Réservez vos vols au meilleur prix vers les destinations les plus prisées. Service premium, prix imbattables.
+                    </p>
+                    <div class="flex flex-wrap gap-4 mb-8">
+                        <div class="flex items-center space-x-3 text-white/90">
+                            <div class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center">
+                                <i class="fas fa-shield-alt text-accent"></i>
+                            </div>
+                            <span class="text-sm">Paiement Sécurisé</span>
+                        </div>
+                        <div class="flex items-center space-x-3 text-white/90">
+                            <div class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center">
+                                <i class="fas fa-headset text-accent"></i>
+                            </div>
+                            <span class="text-sm">Support 24/7</span>
+                        </div>
+                        <div class="flex items-center space-x-3 text-white/90">
+                            <div class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center">
+                                <i class="fas fa-undo text-accent"></i>
+                            </div>
+                            <span class="text-sm">Annulation Gratuite</span>
+                        </div>
+                    </div>
+                    <!-- Stats -->
+                    <div class="flex space-x-8">
+                        <div>
+                            <p class="text-3xl font-bold text-white">50K+</p>
+                            <p class="text-white/60 text-sm">Clients Satisfaits</p>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-bold text-white">500+</p>
+                            <p class="text-white/60 text-sm">Destinations</p>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-bold text-white">98%</p>
+                            <p class="text-white/60 text-sm">Satisfaction</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Search Form -->
+                <div class="bg-white rounded-3xl shadow-2xl p-8 lg:p-10">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-6">
+                        <i class="fas fa-search text-primary mr-2"></i>Rechercher un Vol
+                    </h2>
+                    <form id="searchForm" class="space-y-5">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-600 mb-2">
+                                    <i class="fas fa-plane-departure text-primary mr-1"></i> Départ
+                                </label>
+                                <select class="w-full px-4 py-3 border border-gray-200 rounded-xl form-input-focus focus:border-primary outline-none bg-gray-50">
+                                    <option value="">Ville de départ</option>
+                                    <option value="casablanca">Casablanca (CMN)</option>
+                                    <option value="paris">Paris (CDG)</option>
+                                    <option value="londres">Londres (LHR)</option>
+                                    <option value="dubai">Dubaï (DXB)</option>
+                                    <option value="istanbul">Istanbul (IST)</option>
+                                    <option value="newyork">New York (JFK)</option>
+                                    <option value="tokyo">Tokyo (NRT)</option>
+                                    <option value="maldives">Malé (MLE)</option>
+                                    <option value="barcelona">Barcelone (BCN)</option>
+                                    <option value="singapore">Singapour (SIN)</option>
+                                    <option value="sydney">Sydney (SYD)</option>
+                                    <option value="rome">Rome (FCO)</option>
+                                    <option value="amsterdam">Amsterdam (AMS)</option>
+                                    <option value="bangkok">Bangkok (BKK)</option>
+                                    <option value="cairo">Le Caire (CAI)</option>
+                                    <option value="moscow">Moscou (SVO)</option>
+                                    <option value="beijing">Pékin (PEK)</option>
+                                    <option value="rio">Rio de Janeiro (GIG)</option>
+                                    <option value="cape_town">Le Cap (CPT)</option>
+                                    <option value="los_angeles">Los Angeles (LAX)</option>
+                                    <option value="miami">Miami (MIA)</option>
+                                    <option value="toronto">Toronto (YYZ)</option>
+                                    <option value="dubrovnik">Dubrovnik (DBV)</option>
+                                    <option value="athens">Athènes (ATH)</option>
+                                    <option value="lisbon">Lisbonne (LIS)</option>
+                                    <option value="vienna">Vienne (VIE)</option>
+                                    <option value="prague">Prague (PRG)</option>
+                                    <option value="budapest">Budapest (BUD)</option>
+                                    <option value="stockholm">Stockholm (ARN)</option>
+                                    <option value="oslo">Oslo (OSL)</option>
+                                    <option value="helsinki">Helsinki (HEL)</option>
+                                    <option value="copenhagen">Copenhague (CPH)</option>
+                                    <option value="zurich">Zurich (ZRH)</option>
+                                    <option value="dublin">Dublin (DUB)</option>
+                                    <option value="brussels">Bruxelles (BRU)</option>
+                                    <option value="warsaw">Varsovie (WAW)</option>
+                                    <option value="bucharest">Bucarest (OTP)</option>
+                                    <option value="sofia">Sofia (SOF)</option>
+                                    <option value="belgrade">Belgrade (BEG)</option>
+                                    <option value="zagreb">Zagreb (ZAG)</option>
+                                    <option value="sarajevo">Sarajevo (SJJ)</option>
+                                    <option value="skopje">Skopje (SKP)</option>
+                                    <option value="podgorica">Podgorica (TGD)</option>
+                                    <option value="tirana">Tirana (TIA)</option>
+                                    <option value="valletta">La Valette (MLA)</option>
+                                    <option value="vilnius">Vilnius (VNO)</option>
+                                    <option value="riga">Riga (RIX)</option>
+                                    <option value="tallinn">Tallinn (TLL)</option>
+                                    <option value="luxembourg">Luxembourg (LUX)</option>
+                                    <option value="monaco">Monaco (MCM)</option>
+                                    <option value="andorra">Andorre (ALV)</option>
+                                    <option value="liechtenstein">Liechtenstein (LIE)</option>
+                                    <option value="san_marino">Saint-Marin (SMR)</option>
+                                    <option value="vatican">Vatican (VTC)</option>
+                                    <option value="malta">Malte (MLA)</option>
+                                    <option value="iceland">Islande (KEF)</option>
+                                    <option value="greenland">Groenland (GOH)</option>
+                                    <option value="faroe_islands">Îles Féroé (FAE)</option>
+                                    <option value="azores">Açores (PDL)</option>
+                                    <option value="canary_islands">Îles Canaries (LPA)</option>
+                                    <option value="madeira">Madère (FNC)</option>
+                                    <option value="cape_verde">Cap-Vert (RAI)</option>
+                                    <option value="seychelles">Seychelles (SEZ)</option>
+                                    <option value="mauritius">Île Maurice (MRU)</option>
+                                    <option value="fiji">Fidji (NAN)</option>
+                                    <option value="hawaii">Hawaï (HNL)</option>
+                                    <option value="bali">Bali (DPS)</option>
+                                    <option value="malaysia">Malaisie (KUL)</option>
+                                    <option value="philippines">Philippines (MNL)</option>
+                                    <option value="vietnam">Vietnam (SGN)</option>
+                                    <option value="indonesia">Indonésie (CGK)</option>
+                                    <option value="thailand">Thaïlande (BKK)</option>
+                                    <option value="india">Inde (DEL)</option>
+                                    <option value="nepal">Népal (KTM)</option>
+                                    <option value="sri_lanka">Sri Lanka (CMB)</option>
+                                    <option value="pakistan">Pakistan (ISB)</option>
+                                    <option value="bangladesh">Bangladesh (DAC)</option>
+                                    <option value="afghanistan">Afghanistan (KBL)</option>
+                                    <option value="iran">Iran (IKA)</option>
+                                    <option value="iraq">Irak (BGW)</option>
+                                    <option value="saudi_arabia">Arabie Saoudite (RUH
+                                    )</option>
+                                    <option value="uae">Émirats Arabes Unis (DXB)</option>
+                                    <option value="qatar">Qatar (DOH)</option>
+                                    <option value="kuwait">Koweït (KWI)</option>
+                                    <option value="bahrain">Bahreïn (BAH)</option>
+                                    <option value="oman">Oman (MCT)</option>
+                                    <option value="jordan">Jordanie (AMM)</option>
+                                    <option value="lebanon">Liban (BEY)</option>
+                                    <option value="syria">Syrie (DAM)</option>
+                                    <option value="palestine">Palestine (GZA)</option>
+                                    <option value="egypt">Égypte (CAI)</option>
+                                    <option value="libya">Libye (TIP)</option>
+                                    <option value="tunisia">Tunisie (TUN)</option>
+                                    <option value="algeria">Algérie (ALG)</option>
+                                    <option value="morocco">Maroc (CMN)</option>
+                                    <option value="mauritania">Mauritanie (NKC)</option>
+                                    <option value="senegal">Sénégal (DSS)</option>
+                                    <option value="gambia">Gambie (BJL)</option>
+                                    <option value="guinea">Guinée (CKY)</option>
+                                    <option value="sierra_leone">Sierra Leone (FNA)</option>
+                                    <option value="liberia">Libéria (ROB)</option>
+                                    <option value="cote_d_ivoire">Côte d'Ivoire (ABJ)</option>
+                                    <option value="ghana">Ghana (ACC)</option>
+                                    <option value="togo">Togo (LFW)</option>
+                                    <option value="benin">Bénin (COO)</option>
+                                    <option value="nigeria">Nigéria (LOS)</option>
+                                    <option value="cameroon">Cameroun (DLA)</option>
+                                    <option value="central_african_republic">République centrafricaine (BGF)</option>
+                                    <option value="chad">Tchad (NDJ)</option>
+                                    <option value="niger">Niger (NIM)</option>
+                                    <option value="mali">Mali (BKO)</option>
+                                    <option value="burkina_faso">Burkina Faso (OUA)</option>
+                                    
+                                    
+                                    
+                                    
+                                    
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-600 mb-2">
+                                    <i class="fas fa-plane-arrival text-primary mr-1"></i> Arrivée
+                                </label>
+                                <select class="w-full px-4 py-3 border border-gray-200 rounded-xl form-input-focus focus:border-primary outline-none bg-gray-50">
+                                    <option value="">Ville d'arrivée</option>
+                                    <option value="marrakech">Marrakech (RAK)</option>
+                                    <option value="dubai">Dubaï (DXB)</option>
+                                    <option value="istanbul">Istanbul (IST)</option>
+                                    <option value="paris">Paris (CDG)</option>
+                                    <option value="barcelona">Barcelone (BCN)</option>
+                                    <option value="maldives">Malé (MLE)</option>
+                                    <option value="newyork">New York (JFK)</option>
+                                    <option value="tokyo">Tokyo (NRT)</option>
+                                    <option value="singapore">Singapour (SIN)</option>
+                                    <option value="sydney">Sydney (SYD)</option>
+                                    <option value="rome">Rome (FCO)</option>
+                                    <option value="amsterdam">Amsterdam (AMS)</option>
+                                    <option value="bangkok">Bangkok (BKK)</option>
+                                    <option value="cairo">Le Caire (CAI)</option>
+                                    <option value="moscow">Moscou (SVO)</option>
+                                    <option value="beijing">Pékin (PEK)</option>
+                                    <option value="rio">Rio de Janeiro (GIG)</option>
+                                    <option value="cape_town">Le Cap (CPT)</option>
+                                    <option value="los_angeles">Los Angeles (LAX)</option>
+                                    <option value="miami">Miami (MIA)</option>
+                                    <option value="toronto">Toronto (YYZ)</option>
+                                    <option value="dubrovnik">Dubrovnik (DBV)</option>
+                                    <option value="athens">Athènes (ATH)</option>
+                                    <option value="lisbon">Lisbonne (LIS)</option>
+                                    <option value="vienna">Vienne (VIE)</option>
+                                    <option value="prague">Prague (PRG)</option>
+                                    <option value="budapest">Budapest (BUD)</option>
+                                    <option value="stockholm">Stockholm (ARN)</option>
+                                    <option value="oslo">Oslo (OSL)</option>
+                                    <option value="helsinki">Helsinki (HEL)</option>
+                                    <option value="copenhagen">Copenhague (CPH)</option>
+                                    <option value="zurich">Zurich (ZRH)</option>
+                                    <option value="dublin">Dublin (DUB)</option>
+                                    <option value="brussels">Bruxelles (BRU)</option>
+                                    <option value="warsaw">Varsovie (WAW)</option>
+                                    <option value="bucharest">Bucarest (OTP)</option>
+                                    <option value="sofia">Sofia (SOF)</option>
+                                    <option value="belgrade">Belgrade (BEG)</option>
+                                    <option value="zagreb">Zagreb (ZAG)</option>
+                                    <option value="sarajevo">Sarajevo (SJJ)</option>
+                                    <option value="skopje">Skopje (SKP)</option>
+                                    <option value="podgorica">Podgorica (TGD)</option>
+                                    <option value="tirana">Tirana (TIA)</option>
+                                    <option value="valletta">La Valette (MLA)</option>
+                                    <option value="vilnius">Vilnius (VNO)</option>
+                                    <option value="riga">Riga (RIX)</option>
+                                    <option value="tallinn">Tallinn (TLL)</option>
+                                    <option value="luxembourg">Luxembourg (LUX)</option>
+                                    <option value="monaco">Monaco (MCM)</option>
+                                    <option value="andorra">Andorre (ALV)</option>
+                                    <option value="liechtenstein">Liechtenstein (LIE)</option>
+                                    <option value="san_marino">Saint-Marin (SMR)</option>
+                                    <option value="vatican">Vatican (VTC)</option>
+                                    <option value="malta">Malte (MLA)</option>
+                                    <option value="iceland">Islande (KEF)</option>
+                                    <option value="greenland">Groenland (GOH)</option>
+                                    <option value="faroe_islands">Îles Féroé (FAE)</option>
+                                    <option value="azores">Açores (PDL)</option>
+                                    <option value="canary_islands">Îles Canaries (LPA)</option>
+                                    <option value="madeira">Madère (FNC)</option>
+                                    <option value="cape_verde">Cap-Vert (RAI)</option>
+                                    <option value="seychelles">Seychelles (SEZ)</option>
+                                    <option value="mauritius">Île Maurice (MRU)</option>
+                                    <option value="fiji">Fidji (NAN)</option>
+                                    <option value="hawaii">Hawaï (HNL)</option>
+                                    <option value="bali">Bali (DPS)</option>
+                                    <option value="malaysia">Malaisie (KUL)</option>
+                                    <option value="philippines">Philippines (MNL)</option>
+                                    <option value="vietnam">Vietnam (SGN)</option>
+                                    <option value="indonesia">Indonésie (CGK)</option>
+                                    <option value="thailand">Thaïlande (BKK)</option>
+                                    <option value="india">Inde (DEL)</option>
+                                    <option value="nepal">Népal (KTM)</option>
+                                    <option value="sri_lanka">Sri Lanka (CMB)</option>
+                                    <option value="pakistan">Pakistan (ISB)</option>
+                                    <option value="bangladesh">Bangladesh (DAC)</option>
+                                    <option value="afghanistan">Afghanistan (KBL)</option>
+                                    <option value="iran">Iran (IKA)</option>
+                                    <option value="iraq">Irak (BGW)</option>
+                                    <option value="saudi_arabia">Arabie Saoudite (RUH)</option>
+                                    <option value="uae">Émirats Arabes Unis (DXB)</option>
+                                    <option value="qatar">Qatar (DOH)</option>
+                                    <option value="kuwait">Koweït (KWI)</option>
+                                    <option value="bahrain">Bahreïn (BAH)</option>
+                                    <option value="oman">Oman (MCT)</option>
+                                    <option value="jordan">Jordanie (AMM)</option>
+                                    <option value="lebanon">Liban (BEY)</option>
+                                    <option value="syria">Syrie (DAM)</option>
+                                    <option value="palestine">Palestine (JNN)</option>
+                                    <option value="egypt">Égypte (CAI)</option>
+                                    <option value="libya">Libye (TIP)</option>
+                                    <option value="tunisia">Tunisie (TUN)</option>
+                                    <option value="algeria">Algérie (ALG)</option>
+                                    <option value="morocco">Maroc (CMN)</option>
+                                    <option value="mauritania">Mauritanie (NKC)</option>
+                                    <option value="senegal">Sénégal (DSS)</option>
+                                    <option value="gambia">Gambie (BJL)</option>
+                                    <option value="guinea">Guinée (CKY)</option>
+                                    <option value="sierra_leone">Sierra Leone (FNA)</option>
+                                    <option value="liberia">Libéria (ROB)</option>
+                                    <option value="cote_d_ivoire">Côte d'Ivoire (ABJ)</option>
+                                    <option value="ghana">Ghana (ACC)</option>
+                                    <option value="togo">Togo (LFW)</option>
+                                    <option value="benin">Bénin (COO)</option>
+                                    <option value="nigeria">Nigéria (LOS)</option>
+                                    <option value="cameroon">Cameroun (DLA)</option>
+                                    <option value="central_african_republic">République centrafricaine (BG
+F)</option>
+                                    <option value="chad">Tchad (NDJ)</option>
+                                    <option value="niger">Niger (NIM)</option>
+                                    <option value="mali">Mali (BKO)</option>
+                                    <option value="burkina_faso">Burkina Faso (OUA)</option>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-600 mb-2">
+                                    <i class="fas fa-calendar text-primary mr-1"></i> Date de départ
+                                </label>
+                                <input type="date" class="w-full px-4 py-3 border border-gray-200 rounded-xl form-input-focus focus:border-primary outline-none bg-gray-50">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-600 mb-2">
+                                    <i class="fas fa-calendar-check text-primary mr-1"></i> Date de retour
+                                </label>
+                                <input type="date" class="w-full px-4 py-3 border border-gray-200 rounded-xl form-input-focus focus:border-primary outline-none bg-gray-50">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-600 mb-2">
+                                    <i class="fas fa-users text-primary mr-1"></i> Passagers
+                                </label>
+                                <select class="w-full px-4 py-3 border border-gray-200 rounded-xl form-input-focus focus:border-primary outline-none bg-gray-50">
+                                    <option>1 Adulte</option>
+                                    <option>2 Adultes</option>
+                                    <option>3 Adultes</option>
+                                    <option>4 Adultes</option>
+                                    <option>Famille (2+2)</option>
+                                    <option>Famille (2+3)</option>
+                                    <option>Famille (2+4)</option>
+                                    <option>Groupe (5+)</option>
+                                    <option>Groupe (10+)</option>
+                                    <option>Groupe (20+)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-600 mb-2">
+                                    <i class="fas fa-chair text-primary mr-1"></i> Classe
+                                </label>
+                                <select class="w-full px-4 py-3 border border-gray-200 rounded-xl form-input-focus focus:border-primary outline-none bg-gray-50">
+                                    <option>Économique</option>
+                                    <option>Business</option>
+                                    <option>Première</option>
+                                    <option>Premium Économique</option>
+                                    <option>Classe Affaires</option>
+                                    <option>Classe Élite</option>
+                                    <option>Classe Économique Plus</option>
+                                    <option>Classe Économique Premium</option>
+                                    <option>Classe Économique Confort</option>
+                                    <option>Classe Économique Flexible</option>
+                                    <option>Classe Économique Standard</option>
+                                    <option>Classe Économique Avancée</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-600 mb-2">
+                                    <i class="fas fa-exchange-alt text-primary mr-1"></i> Type
+                                </label>
+                                <select class="w-full px-4 py-3 border border-gray-200 rounded-xl form-input-focus focus:border-primary outline-none bg-gray-50">
+                                    <option>Aller-Retour</option>
+                                    <option>Aller Simple</option>
+                                    <option>Multi-destinations</option>
+                                    <option>Vols Flexibles</option>
+                                    <option>Vols Directs</option>
+                                    <option>Vols avec Escales</option>
+                                    <option>Vols de Dernière Minute</option>
+                                    <option>Vols à Prix Réduit</option>
+                                    <option>Vols Premium</option>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full btn-primary text-white py-4 rounded-xl font-semibold text-lg flex items-center justify-center space-x-2">
+                            <i class="fas fa-search"></i>
+                            <span>Rechercher des Vols</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destinations Section -->
+    <section id="destinations" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-semibold text-sm uppercase tracking-wider">Nos Destinations</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-3 mb-4">Destinations Populaires</h2>
+                <p class="text-gray-500 max-w-2xl mx-auto">Découvrez les destinations les plus prisées par nos voyageurs, avec des offres exclusives toute l'année.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Destination 1 -->
+                <div class="card-hover rounded-2xl overflow-hidden shadow-lg relative group cursor-pointer" style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s, transform 0.6s;">
+                    <img src="https://images.unsplash.com/photo-1539020140153-e479b8c22e70?w=600" alt="Marrakech" class="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="destination-overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="text-white text-xl font-bold">Marrakech</h3>
+                                <p class="text-white/70 text-sm">Maroc</p>
+                            </div>
+                            <span class="price-tag text-white text-sm font-bold px-3 py-1 rounded-full">À partir de 199€</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Destination 2 -->
+                <div class="card-hover rounded-2xl overflow-hidden shadow-lg relative group cursor-pointer" style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s, transform 0.6s;">
+                    <img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=600" alt="Dubaï" class="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="destination-overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="text-white text-xl font-bold">Dubaï</h3>
+                                <p class="text-white/70 text-sm">Émirats Arabes Unis</p>
+                            </div>
+                            <span class="price-tag text-white text-sm font-bold px-3 py-1 rounded-full">À partir de 449€</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Destination 3 -->
+                <div class="card-hover rounded-2xl overflow-hidden shadow-lg relative group cursor-pointer" style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s, transform 0.6s;">
+                    <img src="https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=600" alt="Istanbul" class="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="destination-overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="text-white text-xl font-bold">Istanbul</h3>
+                                <p class="text-white/70 text-sm">Turquie</p>
+                            </div>
+                            <span class="price-tag text-white text-sm font-bold px-3 py-1 rounded-full">À partir de 299€</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Destination 4 -->
+                <div class="card-hover rounded-2xl overflow-hidden shadow-lg relative group cursor-pointer" style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s, transform 0.6s;">
+                    <img src="https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=600" alt="Paris" class="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="destination-overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="text-white text-xl font-bold">Paris</h3>
+                                <p class="text-white/70 text-sm">France</p>
+                            </div>
+                            <span class="price-tag text-white text-sm font-bold px-3 py-1 rounded-full">À partir de 149€</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Destination 5 -->
+                <div class="card-hover rounded-2xl overflow-hidden shadow-lg relative group cursor-pointer" style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s, transform 0.6s;">
+                    <img src="https://images.unsplash.com/photo-1513407030348-c983a97b98d8?w=600" alt="Barcelone" class="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="destination-overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="text-white text-xl font-bold">Barcelone</h3>
+                                <p class="text-white/70 text-sm">Espagne</p>
+                            </div>
+                            <span class="price-tag text-white text-sm font-bold px-3 py-1 rounded-full">À partir de 179€</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Destination 6 -->
+                <div class="card-hover rounded-2xl overflow-hidden shadow-lg relative group cursor-pointer" style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s, transform 0.6s;">
+                    <img src="https://images.unsplash.com/photo-1514282401047-d79a71a590e8?w=600" alt="Maldives" class="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="destination-overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="text-white text-xl font-bold">Maldives</h3>
+                                <p class="text-white/70 text-sm">Maldives</p>
+                            </div>
+                            <span class="price-tag text-white text-sm font-bold px-3 py-1 rounded-full">À partir de 899€</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Destination 7 -->
+                <div class="card-hover rounded-2xl overflow-hidden shadow-lg relative group cursor-pointer" style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s, transform 0.6s;">
+                    <img src="https://images.unsplash.com/photo-1534430480872-3498386e7856?w=600" alt="New York" class="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="destination-overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="text-white text-xl font-bold">New York</h3>
+                                <p class="text-white/70 text-sm">États-Unis</p>
+                            </div>
+                            <span class="price-tag text-white text-sm font-bold px-3 py-1 rounded-full">À partir de 599€</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Destination 8 -->
+                <div class="card-hover rounded-2xl overflow-hidden shadow-lg relative group cursor-pointer" style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s, transform 0.6s;">
+                    <img src="https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=600" alt="Tokyo" class="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div class="destination-overlay absolute inset-0 flex flex-col justify-end p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <h3 class="text-white text-xl font-bold">Tokyo</h3>
+                                <p class="text-white/70 text-sm">Japon</p>
+                            </div>
+                            <span class="price-tag text-white text-sm font-bold px-3 py-1 rounded-full">À partir de 749€</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Available Flights Section -->
+    <section id="vols" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-semibold text-sm uppercase tracking-wider">Vols Disponibles</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-3 mb-4">Nos Meilleurs Vols</h2>
+                <p class="text-gray-500 max-w-2xl mx-auto">Trouvez les vols les plus avantageux avec des horaires flexibles et des tarifs compétitifs.</p>
+            </div>
+            
+            <!-- Filter Tabs -->
+            <div class="flex flex-wrap justify-center gap-3 mb-10">
+                <button class="filter-btn active px-5 py-2.5 rounded-full text-sm font-medium bg-primary text-white transition-all" data-filter="all">Tous</button>
+                <button class="filter-btn px-5 py-2.5 rounded-full text-sm font-medium bg-gray-200 text-gray-600 hover:bg-primary hover:text-white transition-all" data-filter="economy">Économique</button>
+                <button class="filter-btn px-5 py-2.5 rounded-full text-sm font-medium bg-gray-200 text-gray-600 hover:bg-primary hover:text-white transition-all" data-filter="business">Business</button>
+                <button class="filter-btn px-5 py-2.5 rounded-full text-sm font-medium bg-gray-200 text-gray-600 hover:bg-primary hover:text-white transition-all" data-filter="first">Première</button>
+            </div>
+            
+            <!-- Flights Grid -->
+            <div class="space-y-4" id="flightsList">
+                <!-- Flight 1 -->
+                <div class="flight-card bg-white rounded-2xl shadow-md p-6 hover:shadow-xl" data-class="economy" style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s, transform 0.6s;">
+                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-plane text-primary text-xl"></i>
+                            </div>
+                            
+
+                              
+                            
+                        
+                        <div class="flex items-center space-x-6">
+                            <div class="text-center">
+                                <p class="font-bold text-lg text-gray-800">08:30</p>
+                                <p class="text-sm text-gray-500">CMN</p>
+                                <p class="text-xs text-gray-400">Casablanca</p>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <p class="text-xs text-gray-400 mb-1">Direct</p>
+                                <div class="flex items-center">
+                                    <div class="w-2 h-2 rounded-full bg-primary"></div>
+                                    <div class="w-20 h-0.5 bg-gradient-to-r from-primary to-accent"></div>
+                                    <i class="fas fa-plane text-accent text-xs mx-1"></i>
+                                    <div class="w-20 h-0.5 bg-gradient-to-r from-accent to-primary"></div>
+                                    <div class="w-2 h-2 rounded-full bg-accent"></div>
+                                </div>
+                                <p class="text-xs text-gray-400 mt-1">3h 20min</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="font-bold text-lg text-gray-800">11:50</p>
+                                <p class="text-sm text-gray-500">CDG</p>
+                                <p class="text-xs text-gray-400">Paris</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4">
+                            <div class="text-right">
+                                <p class="text-2xl font-bold text-primary">249€</p>
+                                <p class="text-xs text-gray-400">par personne</p>
+                            </div>
+                            <button class="btn-primary text-white px-6 py-3 rounded-xl font-medium text-sm book-flight" data-flight="RAM-2301">
+                                Réserver
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Flight 2 -->
+                <div class="flight-card bg-white rounded-2xl shadow-md p-6 hover:shadow-xl" data-class="business" style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s, transform 0.6s;">
+                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-plane text-purple-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold text-gray-800">Emirates</p>
+                                <p class="text-sm text-gray-500">Vol <span class="font-mono font-semibold text-purple-600">EK-702</span></p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-6">
+                            <div class="text-center">
+                                <p class="font-bold text-lg text-gray-800">14:15</p>
+                                <p class="text-sm text-gray-500">CDG</p>
+                                <p class="text-xs text-gray-400">Paris</p>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <p class="text-xs text-gray-400 mb-1">Direct</p>
+                                <div class="flex items-center">
+                                    <div class="w-2 h-2 rounded-full bg-purple-600"></div>
+                                    <div class="w-20 h-0.5 bg-gradient-to-r from-purple-600 to-accent"></div>
+                                    <i class="fas fa-plane text-accent text-xs mx-1"></i>
+                                    <div class="w-20 h-0.5 bg-gradient-to-r from-accent to-purple-600"></div>
+                                    <div class="w-2 h-2 rounded-full bg-accent"></div>
+                                </div>
+                                <p class="text-xs text-gray-400 mt-1">6h 45min</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="font-bold text-lg text-gray-800">23:00</p>
+                                <p class="text-sm text-gray-500">DXB</p>
+                                <p class="text-xs text-gray-400">Dubaï</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4">
+                            <div class="text-right">
+                                <p class="text-xs bg-purple-100 text-purple-600 px-2 py-1 rounded-full mb-1">Business</p>
+                                <p class="text-2xl font-bold text-purple-600">1,290€</p>
+                                <p class="text-xs text-gray-400">par personne</p>
+                            </div>
+                            <button class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-xl font-medium text-sm transition-all book-flight" data-flight="EK-702">
+                                Réserver
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Flight 3 -->
+                <div class="flight-card bg-white rounded-2xl shadow-md p-6 hover:shadow-xl" data-class="economy" style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s, transform 0.6s;">
+                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-plane text-green-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold text-gray-800">Turkish Airlines</p>
+                                <p class="text-sm text-gray-500">Vol <span class="font-mono font-semibold text-green-600">TK-1865</span></p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-6">
+                            <div class="text-center">
+                                <p class="font-bold text-lg text-gray-800">06:00</p>
+                                <p class="text-sm text-gray-500">CMN</p>
+                                <p class="text-xs text-gray-400">Casablanca</p>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <p class="text-xs text-gray-400 mb-1">Direct</p>
+                                <div class="flex items-center">
+                                    <div class="w-2 h-2 rounded-full bg-green-600"></div>
+                                    <div class="w-20 h-0.5 bg-gradient-to-r from-green-600 to-accent"></div>
+                                    <i class="fas fa-plane text-accent text-xs mx-1"></i>
+                                    <div class="w-20 h-0.5 bg-gradient-to-r from-accent to-green-600"></div>
+                                    <div class="w-2 h-2 rounded-full bg-accent"></div>
+                                </div>
+                                <p class="text-xs text-gray-400 mt-1">4h 10min</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="font-bold text-lg text-gray-800">11:10</p>
+                                <p class="text-sm text-gray-500">IST</p>
+                                <p class="text-xs text-gray-400">Istanbul</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4">
+                            <div class="text-right">
+                                <p class="text-2xl font-bold text-green-600">319€</p>
+                                <p class="text-xs text-gray-400">par personne</p>
+                            </div>
+                            <button class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl font-medium text-sm transition-all book-flight" data-flight="TK-1865">
+                                Réserver
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Flight 4 -->
+                <div class="flight-card bg-white rounded-2xl shadow-md p-6 hover:shadow-xl" data-class="first" style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s, transform 0.6s;">
+                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-crown text-amber-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold text-gray-800">Qatar Airways</p>
+                                <p class="text-sm text-gray-500">Vol <span class="font-mono font-semibold text-amber-600">QR-073</span></p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-6">
+                            <div class="text-center">
+                                <p class="font-bold text-lg text-gray-800">22:30</p>
+                                <p class="text-sm text-gray-500">LHR</p>
+                                <p class="text-xs text-gray-400">Londres</p>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <p class="text-xs text-gray-400 mb-1">Direct</p>
+                                <div class="flex items-center">
+                                    <div class="w-2 h-2 rounded-full bg-amber-600"></div>
+                                    <div class="w-20 h-0.5 bg-gradient-to-r from-amber-600 to-yellow-400"></div>
+                                    <i class="fas fa-crown text-amber-500 text-xs mx-1"></i>
+                                    <div class="w-20 h-0.5 bg-gradient-to-r from-yellow-400 to-amber-600"></div>
+                                    <div class="w-2 h-2 rounded-full bg-amber-600"></div>
+                                </div>
+                                <p class="text-xs text-gray-400 mt-1">7h 55min</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="font-bold text-lg text-gray-800">06:25</p>
+                                <p class="text-sm text-gray-500">MLE</p>
+                                <p class="text-xs text-gray-400">Maldives</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4">
+                            <div class="text-right">
+                                <p class="text-xs bg-amber-100 text-amber-600 px-2 py-1 rounded-full mb-1">✈ Première</p>
+                                <p class="text-2xl font-bold text-amber-600">3,450€</p>
+                                <p class="text-xs text-gray-400">par personne</p>
+                            </div>
+                            <button class="bg-amber-600 hover:bg-amber-700 text-white px-6 py-3 rounded-xl font-medium text-sm transition-all book-flight" data-flight="QR-073">
+                                Réserver
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Flight 5 -->
+                <div class="flight-card bg-white rounded-2xl shadow-md p-6 hover:shadow-xl" data-class="economy" style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s, transform 0.6s;">
+                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-plane text-red-500 text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold text-gray-800">Air France</p>
+                                <p class="text-sm text-gray-500">Vol <span class="font-mono font-semibold text-red-500">AF-1045</span></p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-6">
+                            <div class="text-center">
+                                <p class="font-bold text-lg text-gray-800">10:45</p>
+                                <p class="text-sm text-gray-500">CDG</p>
+                                <p class="text-xs text-gray-400">Paris</p>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <p class="text-xs text-gray-400 mb-1">Direct</p>
+                                <div class="flex items-center">
+                                    <div class="w-2 h-2 rounded-full bg-red-500"></div>
+                                    <div class="w-20 h-0.5 bg-gradient-to-r from-red-500 to-accent"></div>
+                                    <i class="fas fa-plane text-accent text-xs mx-1"></i>
+                                    <div class="w-20 h-0.5 bg-gradient-to-r from-accent to-red-500"></div>
+                                    <div class="w-2 h-2 rounded-full bg-accent"></div>
+                                </div>
+                                <p class="text-xs text-gray-400 mt-1">2h 15min</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="font-bold text-lg text-gray-800">13:00</p>
+                                <p class="text-sm text-gray-500">BCN</p>
+                                <p class="text-xs text-gray-400">Barcelone</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4">
+                            <div class="text-right">
+                                <p class="text-2xl font-bold text-red-500">179€</p>
+                                <p class="text-xs text-gray-400">par personne</p>
+                            </div>
+                            <button class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-xl font-medium text-sm transition-all book-flight" data-flight="AF-1045">
+                                Réserver
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Flight 6 -->
+                <div class="flight-card bg-white rounded-2xl shadow-md p-6 hover:shadow-xl" data-class="business" style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s, transform 0.6s;">
+                    <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-indigo-100 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-plane text-indigo-600 text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold text-gray-800">Delta Airlines</p>
+                                <p class="text-sm text-gray-500">Vol <span class="font-mono font-semibold text-indigo-600">DL-405</span></p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-6">
+                            <div class="text-center">
+                                <p class="font-bold text-lg text-gray-800">16:00</p>
+                                <p class="text-sm text-gray-500">CDG</p>
+                                <p class="text-xs text-gray-400">Paris</p>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <p class="text-xs text-gray-400 mb-1">Direct</p>
+                                <div class="flex items-center">
+                                    <div class="w-2 h-2 rounded-full bg-indigo-600"></div>
+                                    <div class="w-20 h-0.5 bg-gradient-to-r from-indigo-600 to-accent"></div>
+                                    <i class="fas fa-plane text-accent text-xs mx-1"></i>
+                                    <div class="w-20 h-0.5 bg-gradient-to-r from-accent to-indigo-600"></div>
+                                    <div class="w-2 h-2 rounded-full bg-accent"></div>
+                                </div>
+                                <p class="text-xs text-gray-400 mt-1">8h 30min</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="font-bold text-lg text-gray-800">18:30</p>
+                                <p class="text-sm text-gray-500">JFK</p>
+                                <p class="text-xs text-gray-400">New York</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4">
+                            <div class="text-right">
+                                <p class="text-xs bg-indigo-100 text-indigo-600 px-2 py-1 rounded-full mb-1">Business</p>
+                                <p class="text-2xl font-bold text-indigo-600">2,150€</p>
+                                <p class="text-xs text-gray-400">par personne</p>
+                            </div>
+                            <button class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-xl font-medium text-sm transition-all book-flight" data-flight="DL-405">
+                                Réserver
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Form Section -->
+    <section id="reservation" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-semibold text-sm uppercase tracking-wider">Réservation</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-3 mb-4">Formulaire de Réservation</h2>
+                <p class="text-gray-500 max-w-2xl mx-auto">Remplissez le formulaire ci-dessous pour réserver votre vol. Notre équipe vous contactera sous 24h.</p>
+            </div>
+            
+            <div class="grid lg:grid-cols-3 gap-10">
+                <!-- Form -->
+                <div class="lg:col-span-2">
+                    <form id="bookingForm" class="bg-gray-50 rounded-3xl p-8 shadow-sm">
+                        <!-- Step Indicator -->
+                        <div class="flex items-center justify-center mb-10">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold text-sm">1</div>
+                                <span class="text-sm font-medium text-gray-700">Informations</span>
+                                <div class="w-8 h-0.5 bg-gray-300"></div>
+                                <div class="w-10 h-10 rounded-full bg-gray-300 text-gray-500 flex items-center justify-center font-bold text-sm">2</div>
+                                <span class="text-sm font-medium text-gray-400">Vol</span>
+                                <div class="w-8 h-0.5 bg-gray-300"></div>
+                                <div class="w-10 h-10 rounded-full bg-gray-300 text-gray-500 flex items-center justify-center font-bold text-sm">3</div>
+                                <span class="text-sm font-medium text-gray-400">Paiement</span>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-xl font-bold text-gray-800 mb-6">
+                            <i class="fas fa-user-circle text-primary mr-2"></i>Informations Personnelles
+                        </h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-600 mb-2">Nom complet *</label>
+                                <input type="text" placeholder="Votre nom et prénom" class="w-full px-4 py-3.5 border border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none bg-white" required="">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-600 mb-2">Email *</label>
+                                <input type="email" placeholder="votre@email.com" class="w-full px-4 py-3.5 border border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none bg-white" required="">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-600 mb-2">Pays</label>
+                                <select id="countrySelect" class="w-full px-4 py-3.5 border border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none bg-white"></select>
+                                <label class="block text-sm font-medium text-gray-600 mb-2 mt-4">Téléphone *</label>
+                                <div class="flex items-center border border-gray-200 rounded-xl bg-white overflow-hidden focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20">
+                                    <input id="phonePrefix" type="text" value="+33" inputmode="tel" maxlength="5" class="w-24 px-3 py-3.5 text-gray-700 font-medium bg-gray-50 border-r border-gray-200 outline-none" aria-label="Code pays">
+                                    <input id="phoneInput" type="tel" placeholder="6 XX XX XX XX" class="w-full px-4 py-3.5 outline-none" required="">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-600 mb-2">N° Passeport</label>
+                                <input type="text" placeholder="Numéro de passeport" class="w-full px-4 py-3.5 border border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none bg-white">
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-xl font-bold text-gray-800 mb-6">
+                            <i class="fas fa-plane text-primary mr-2"></i>Détails du Vol
+                        </h3>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-600 mb-2">Destination *</label>
+                                <select class="w-full px-4 py-3.5 border border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none bg-white" required="">
+                                    <option value="">Choisir une destination</option>
+                                    <option value="marrakech">Marrakech - 199€</option>
+                                    <option value="dubai">Dubaï - 449€</option>
+                                    <option value="istanbul">Istanbul - 299€</option>
+                                    <option value="paris">Paris - 149€</option>
+                                    <option value="barcelona">Barcelone - 179€</option>
+                                    <option value="maldives">Maldives - 899€</option>
+                                    <option value="newyork">New York - 599€</option>
+                                    <option value="tokyo">Tokyo - 749€</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-600 mb-2">N° Vol préféré</label>
+                                <input type="text" placeholder="Ex: RAM-2301" class="w-full px-4 py-3.5 border border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none bg-white">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-600 mb-2">Date de départ *</label>
+                                <input type="date" class="w-full px-4 py-3.5 border border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none bg-white" required="">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-600 mb-2">Date de retour</label>
+                                <input type="date" class="w-full px-4 py-3.5 border border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none bg-white">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-600 mb-2">Nombre de passagers *</label>
+                                <select class="w-full px-4 py-3.5 border border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none bg-white" required="">
+                                    <option>1 Passager</option>
+                                    <option>2 Passagers</option>
+                                    <option>3 Passagers</option>
+                                    <option>4 Passagers</option>
+                                    <option>5+ Passagers</option>
+                                    <option>10+ Passagers</option>
+                                    
+                                </option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-600 mb-2">Classe *</label>
+                                <select class="w-full px-4 py-3.5 border border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none bg-white" required="">
+                                    <option>Économique</option>
+                                    <option>Économique Premium</option>
+                                    <option>Business</option>
+                                    <option>Première Classe</option>
+                                    <option>Affaires</option>
+                                    <option>Première</option>
+                                    <ooption>Classe Affaires</option>
+                                    <option>Classe Économique</option>
+                                    <option>Classe Économique Premium</option>
+                                    <option>Classe Première</option>
+                                    <option>Classe Affaires</option>
+                                    <option>Classe Économique</option>
+                                    <option>Classe Économique Premium</option>
+                                    
+                                
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-8">
+                            <label class="block text-sm font-medium text-gray-600 mb-2">Services supplémentaires</label>
+                            <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                <label class="flex items-center space-x-2 bg-white p-3 rounded-xl border border-gray-200 cursor-pointer hover:border-primary">
+                                    <input type="checkbox" class="w-4 h-4 text-primary rounded">
+                                    <span class="text-sm text-gray-600">Bagage 23kg</span>
+                                </label>
+                                <label class="flex items-center space-x-2 bg-white p-3 rounded-xl border border-gray-200 cursor-pointer hover:border-primary">
+                                    <input type="checkbox" class="w-4 h-4 text-primary rounded">
+                                    <span class="text-sm text-gray-600">Repas spécial</span>
+                                </label>
+                                <label class="flex items-center space-x-2 bg-white p-3 rounded-xl border border-gray-200 cursor-pointer hover:border-primary">
+                                    <input type="checkbox" class="w-4 h-4 text-primary rounded">
+                                    <span class="text-sm text-gray-600">Siège premium</span>
+                                </label>
+                                <label class="flex items-center space-x-2 bg-white p-3 rounded-xl border border-gray-200 cursor-pointer hover:border-primary">
+                                    <input type="checkbox" class="w-4 h-4 text-primary rounded">
+                                    <span class="text-sm text-gray-600">Assurance</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-8">
+                            <label class="block text-sm font-medium text-gray-600 mb-2">Notes / Demandes spéciales</label>
+                            <textarea rows="3" placeholder="Besoin d'un fauteuil roulant, régime alimentaire spécifique..." class="w-full px-4 py-3.5 border border-gray-200 rounded-xl focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none bg-white resize-none"></textarea>
+                        </div>
+                        
+                        <button type="submit" class="w-full btn-primary text-white py-4 rounded-xl font-semibold text-lg flex items-center justify-center space-x-2">
+                            <i class="fas fa-paper-plane"></i>
+                            <span>Envoyer la Réservation</span>
+                        </button>
+                    </form>
+                </div>
+                
+                <!-- Sidebar Info -->
+                <div class="space-y-6">
+                    <!-- Summary Card -->
+                    <div class="bg-gradient-to-br from-primary to-secondary rounded-3xl p-8 text-white">
+                        <h3 class="text-xl font-bold mb-6">Pourquoi nous choisir ?</h3>
+                        <div class="space-y-5">
+                            <div class="flex items-start space-x-3">
+                                <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i class="fas fa-tag text-sm"></i>
+                                </div>
+                                <div>
+                                    <p class="font-semibold">Meilleurs Prix Garantis</p>
+                                    <p class="text-white/70 text-sm">Prix les plus bas du marché ou remboursement</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i class="fas fa-clock text-sm"></i>
+                                </div>
+                                <div>
+                                    <p class="font-semibold">Confirmation Instantanée</p>
+                                    <p class="text-white/70 text-sm">Billet électronique envoyé en quelques minutes</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i class="fas fa-shield-alt text-sm"></i>
+                                </div>
+                                <div>
+                                    <p class="font-semibold">Paiement 100% Sécurisé</p>
+                                    <p class="text-white/70 text-sm">Cryptage SSL et protection des données</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <div class="w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5">
+                                    <i class="fas fa-headset text-sm"></i>
+                                </div>
+                                <div>
+                                    <p class="font-semibold">Support Client 24/7</p>
+                                    <p class="text-white/70 text-sm">Assistance multilingue à tout moment</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Help Card -->
+                    <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-phone-alt text-primary text-2xl"></i>
+                            </div>
+                            <h3 class="text-lg font-bold text-gray-800 mb-2">Besoin d'aide ?</h3>
+                            <p class="text-gray-500 text-sm mb-4">Notre équipe est disponible pour vous assister</p>
+                            <p class="text-primary font-bold text-xl mb-4">+33 1 23 45 67 89</p>
+                            <div class="flex items-center justify-center space-x-2 text-gray-400 text-sm">
+                                <span class="w-2 h-2 bg-green-500 rounded-full pulse-dot"></span>
+                                <span>En ligne maintenant</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Reviews -->
+                    <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">Avis Clients</h3>
+                        <div class="flex items-center space-x-1 mb-3">
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star-half-alt text-yellow-400"></i>
+                            <span class="text-sm text-gray-500 ml-2">4.8/5 (2,547 avis)</span>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="bg-gray-50 rounded-xl p-4">
+                                <div class="flex items-center space-x-2 mb-2">
+                                    <div class="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center">
+                                        <span class="text-primary text-xs font-bold">SM</span>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-700">Sophie M.</span>
+                                    <div class="flex space-x-0.5 ml-auto">
+                                        <i class="fas fa-star text-yellow-400 text-xs"></i>
+                                        <i class="fas fa-star text-yellow-400 text-xs"></i>
+                                        <i class="fas fa-star text-yellow-400 text-xs"></i>
+                                        <i class="fas fa-star text-yellow-400 text-xs"></i>
+                                        <i class="fas fa-star text-yellow-400 text-xs"></i>
+                                    </div>
+                                     <div class="flex items-center space-x-1 mb-3">
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star-half-alt text-yellow-400"></i>
+                            <span class="text-sm text-gray-500 ml-2">4.8/5 (2,547 avis)</span>
+                        </div>
+                                </div>
+                                <p class="text-sm text-gray-600">"Service impeccable ! Vol réservé en 5 minutes et prix très compétitifs."</p>
+                            </div>
+                            <div class="bg-gray-50 rounded-xl p-4">
+                                <div class="flex items-center space-x-2 mb-2">
+                                    <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
+                                        <span class="text-green-600 text-xs font-bold">AK</span>
+                                    </div>
+                                    <span class="text-sm font-medium text-gray-700">Ahmed K.</span>
+                                    <div class="flex space-x-0.5 ml-auto">
+                                        <i class="fas fa-star text-yellow-400 text-xs"></i>
+                                        <i class="fas fa-star text-yellow-400 text-xs"></i>
+                                        <i class="fas fa-star text-yellow-400 text-xs"></i>
+                                        <i class="fas fa-star text-yellow-400 text-xs"></i>
+                                        <i class="fas fa-star text-yellow-400 text-xs"></i>
+                                    </div>
+                                </div>
+                                <p class="text-sm text-gray-600">"Excellente expérience. Support client très réactif et voyage parfait !"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Special Offers -->
+    <section class="py-20 bg-gradient-to-br from-dark to-primary">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Offres Spéciales</h2>
+                <p class="text-white/70 max-w-2xl mx-auto">Profitez de nos promotions limitées pour voyager à prix réduit</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Offer 1 -->
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 card-hover" style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s, transform 0.6s;">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="bg-accent/20 text-accent px-3 py-1 rounded-full text-sm font-medium">-30%</span>
+                        <span class="text-white/60 text-sm">⏰ Expire dans 3 jours</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Escapade à Malaga</h3>
+                    <p class="text-white/60 text-sm mb-4">Vol + Hôtel 4 étoiles - 7 nuits</p>
+                    <div class="flex items-baseline space-x-2 mb-6">
+                        <span class="text-3xl font-bold text-accent">349€</span>
+                        <span class="text-white/40 line-through">499€</span>
+                    </div>
+                    <button class="w-full bg-white/10 hover:bg-white/20 text-white py-3 rounded-xl font-medium transition-all border border-white/20">
+                        Profiter de l'offre
+                    </button>
+                </div>
+                
+                <!-- Offer 2 -->
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-accent/50 card-hover relative overflow-hidden" style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s, transform 0.6s;">
+                    <div class="absolute top-0 right-0 bg-accent text-dark text-xs font-bold px-4 py-1 rounded-bl-xl">POPULAIRE</div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="bg-red-500/20 text-red-400 px-3 py-1 rounded-full text-sm font-medium">-45%</span>
+                        <span class="text-white/60 text-sm">⏰ Expire dans 5 jours</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Séjour aux Maldives</h3>
+                    <p class="text-white/60 text-sm mb-4">Vol Business + Resort 5 étoiles - 10 nuits</p>
+                    <div class="flex items-baseline space-x-2 mb-6">
+                        <span class="text-3xl font-bold text-accent">1,890€</span>
+                        <span class="text-white/40 line-through">3,450€</span>
+                    </div>
+                    <button class="w-full bg-accent hover:bg-yellow-500 text-dark py-3 rounded-xl font-bold transition-all">
+                        Profiter de l'offre
+                    </button>
+                </div>
+                
+                <!-- Offer 3 -->
+                <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20 card-hover" style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s, transform 0.6s;">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm font-medium">-25%</span>
+                        <span class="text-white/60 text-sm">⏰ Expire dans 7 jours</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Week-end à Istanbul</h3>
+                    <p class="text-white/60 text-sm mb-4">Vol + Hôtel 5 étoiles - 3 nuits</p>
+                    <div class="flex items-baseline space-x-2 mb-6">
+                        <span class="text-3xl font-bold text-accent">279€</span>
+                        <span class="text-white/40 line-through">379€</span>
+                    </div>
+                    <button class="w-full bg-white/10 hover:bg-white/20 text-white py-3 rounded-xl font-medium transition-all border border-white/20">
+                        Profiter de l'offre
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-primary font-semibold text-sm uppercase tracking-wider">Contact</span>
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mt-3 mb-4">Contactez-nous</h2>
+                <p class="text-gray-500 max-w-2xl mx-auto">Une question ? N'hésitez pas à nous contacter. Notre équipe est là pour vous aider.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-2xl p-8 shadow-sm text-center card-hover" style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s, transform 0.6s;">
+                    <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-map-marker-alt text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">Adresse</h3>
+                    <p class="text-gray-500 text-sm">123 Avenue Mohammed V<br>Casablanca, Maroc 20000</p>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-8 shadow-sm text-center card-hover" style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s, transform 0.6s;">
+                    <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-envelope text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">Email</h3>
+                    <p class="text-gray-500 text-sm">contact@voyageelite.com<br>support@voyageelite.com</p>
+                </div>
+                
+                <div class="bg-white rounded-2xl p-8 shadow-sm text-center card-hover" style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s, transform 0.6s;">
+                    <div class="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-phone text-primary text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-800 mb-2">Téléphone</h3>
+                    <p class="text-gray-500 text-sm">+212 5 22 XX XX XX<br>+33 1 23 45 67 89</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-16 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+                <div>
+                    <div class="flex items-center space-x-2 mb-4">
+                        <i class="fas fa-plane text-2xl text-accent"></i>
+                        <span class="text-2xl font-bold">VoyageElite</span>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-6">Votre partenaire de confiance pour des voyages inoubliables à travers le monde. Service premium, prix imbattables.</p>
+                    <div class="flex space-x-3">
+                        <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-primary transition-colors">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Destinations</h4>
+                    <ul class="space-y-3 text-gray-400 text-sm">
+                        <li><a href="#" class="hover:text-accent transition-colors">Marrakech</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">Dubaï</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">Istanbul</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">Paris</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">New York</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">Maldives</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Liens Utiles</h4>
+                    <ul class="space-y-3 text-gray-400 text-sm">
+                        <li><a href="#" class="hover:text-accent transition-colors">À Propos</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">Conditions Générales</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">Politique de Confidentialité</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">FAQ</a></li>
+                        <li><a href="#" class="hover:text-accent transition-colors">Programme de Fidélité</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold text-lg mb-4">Newsletter</h4>
+                    <p class="text-gray-400 text-sm mb-4">Recevez nos meilleures offres directement dans votre boîte mail.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Votre email" class="flex-1 px-4 py-3 rounded-l-xl bg-white/10 border border-white/20 text-white placeholder-gray-400 outline-none focus:border-accent text-sm">
+                        <button class="bg-accent hover:bg-yellow-500 text-dark px-4 py-3 rounded-r-xl font-bold transition-colors">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <div class="mt-6">
+                        <p class="text-gray-400 text-sm mb-2">Moyens de paiement :</p>
+                        <div class="flex space-x-3 text-xl text-gray-400">
+                            <i class="fab fa-cc-visa"></i>
+                            <i class="fab fa-cc-mastercard"></i>
+                            <i class="fab fa-cc-paypal"></i>
+                            <i class="fab fa-cc-amex"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 text-sm">© 2024 VoyageElite. Tous droits réservés.</p>
+                <div class="flex items-center space-x-4 mt-4 md:mt-0">
+                   <p>fais avec ahmed </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="fixed inset-0 z-50 hidden items-center justify-center modal-overlay">
+        <div class="bg-white rounded-3xl p-8 max-w-md w-full mx-4 shadow-2xl transform transition-all">
+            <div class="text-center">
+                <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-check text-green-500 text-3xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-800 mb-2">Demande Envoyée !</h3>
+                <p class="text-gray-500 mb-6">Votre réservation a été enregistrée avec succès. Notre équipe vous contactera dans les 24h pour confirmer votre vol.</p>
+                <div class="bg-gray-50 rounded-xl p-4 mb-6">
+                    <p class="text-sm text-gray-600">Référence: <span class="font-mono font-bold text-primary" id="refNumber">VE-2024-001</span></p>
+                </div>
+                <button onclick="closeModal()" class="w-full btn-primary text-white py-3 rounded-xl font-medium">
+                    Fermer
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        const logoText = document.getElementById('logoText');
+        const navTexts = document.querySelectorAll('.nav-text');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('nav-scrolled');
+                logoText.classList.remove('text-white');
+                logoText.classList.add('text-gray-800');
+                navTexts.forEach(el => {
+                    el.classList.remove('text-white/90');
+                    el.classList.add('text-gray-700');
+                });
+            } else {
+                navbar.classList.remove('nav-scrolled');
+                logoText.classList.add('text-white');
+                logoText.classList.remove('text-gray-800');
+                navTexts.forEach(el => {
+                    el.classList.add('text-white/90');
+                    el.classList.remove('text-gray-700');
+                });
+            }
+        });
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu on link click
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Search form
+        document.getElementById('searchForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            document.getElementById('vols').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        // Booking form
+        const countrySelect = document.getElementById('countrySelect');
+        const phonePrefix = document.getElementById('phonePrefix');
+        const phoneInput = document.getElementById('phoneInput');
+
+        const countryDialCodes = [
+            { name: 'Afghanistan', dialCode: '+93' },
+            { name: 'Afrique du Sud', dialCode: '+27' },
+            { name: 'Albanie', dialCode: '+355' },
+            { name: 'Algérie', dialCode: '+213' },
+            { name: 'Allemagne', dialCode: '+49' },
+            { name: 'Andorre', dialCode: '+376' },
+            { name: 'Angola', dialCode: '+244' },
+            { name: 'Antigua-et-Barbuda', dialCode: '+1' },
+            { name: 'Arabie saoudite', dialCode: '+966' },
+            { name: 'Argentine', dialCode: '+54' },
+            { name: 'Arménie', dialCode: '+374' },
+            { name: 'Australie', dialCode: '+61' },
+            { name: 'Autriche', dialCode: '+43' },
+            { name: 'Azerbaïdjan', dialCode: '+994' },
+            { name: 'Bahamas', dialCode: '+1' },
+            { name: 'Bahreïn', dialCode: '+973' },
+            { name: 'Bangladesh', dialCode: '+880' },
+            { name: 'Barbade', dialCode: '+1' },
+            { name: 'Belgique', dialCode: '+32' },
+            { name: 'Belize', dialCode: '+501' },
+            { name: 'Bénin', dialCode: '+229' },
+            { name: 'Bhoutan', dialCode: '+975' },
+            { name: 'Biélorussie', dialCode: '+375' },
+            { name: 'Birmanie', dialCode: '+95' },
+            { name: 'Bolivie', dialCode: '+591' },
+            { name: 'Bosnie-Herzégovine', dialCode: '+387' },
+            { name: 'Botswana', dialCode: '+267' },
+            { name: 'Brésil', dialCode: '+55' },
+            { name: 'Brunei', dialCode: '+673' },
+            { name: 'Bulgarie', dialCode: '+359' },
+            { name: 'Burkina Faso', dialCode: '+226' },
+            { name: 'Burundi', dialCode: '+257' },
+            { name: 'Cabo Verde', dialCode: '+238' },
+            { name: 'Cambodge', dialCode: '+855' },
+            { name: 'Cameroun', dialCode: '+237' },
+            { name: 'Canada', dialCode: '+1' },
+            { name: 'République centrafricaine', dialCode: '+236' },
+            { name: 'Chili', dialCode: '+56' },
+            { name: 'Chine', dialCode: '+86' },
+            { name: 'Chypre', dialCode: '+357' },
+            { name: 'Colombie', dialCode: '+57' },
+            { name: 'Comores', dialCode: '+269' },
+            { name: 'Congo', dialCode: '+242' },
+            { name: 'République démocratique du Congo', dialCode: '+243' },
+            { name: 'Corée du Nord', dialCode: '+850' },
+            { name: 'Corée du Sud', dialCode: '+82' },
+            { name: 'Costa Rica', dialCode: '+506' },
+            { name: 'Côte d\'Ivoire', dialCode: '+225' },
+            { name: 'Croatie', dialCode: '+385' },
+            { name: 'Cuba', dialCode: '+53' },
+            { name: 'Danemark', dialCode: '+45' },
+            { name: 'Djibouti', dialCode: '+253' },
+            { name: 'Dominique', dialCode: '+1' },
+            { name: 'Égypte', dialCode: '+20' },
+            { name: 'Émirats arabes unis', dialCode: '+971' },
+            { name: 'Équateur', dialCode: '+593' },
+            { name: 'Érythrée', dialCode: '+291' },
+            { name: 'Espagne', dialCode: '+34' },
+            { name: 'Estonie', dialCode: '+372' },
+            { name: 'Eswatini', dialCode: '+268' },
+            { name: 'États-Unis', dialCode: '+1' },
+            { name: 'Éthiopie', dialCode: '+251' },
+            { name: 'Fidji', dialCode: '+679' },
+            { name: 'Finlande', dialCode: '+358' },
+            { name: 'France', dialCode: '+33' },
+            { name: 'Gabon', dialCode: '+241' },
+            { name: 'Gambie', dialCode: '+220' },
+            { name: 'Géorgie', dialCode: '+995' },
+            { name: 'Ghana', dialCode: '+233' },
+            { name: 'Grèce', dialCode: '+30' },
+            { name: 'Grenade', dialCode: '+1' },
+            { name: 'Guatemala', dialCode: '+502' },
+            { name: 'Guinée', dialCode: '+224' },
+            { name: 'Guinée-Bissau', dialCode: '+245' },
+            { name: 'Guinée équatoriale', dialCode: '+240' },
+            { name: 'Guyana', dialCode: '+592' },
+            { name: 'Haïti', dialCode: '+509' },
+            { name: 'Honduras', dialCode: '+504' },
+            { name: 'Hongrie', dialCode: '+36' },
+            { name: 'Inde', dialCode: '+91' },
+            { name: 'Indonésie', dialCode: '+62' },
+            { name: 'Irak', dialCode: '+964' },
+            { name: 'Iran', dialCode: '+98' },
+            { name: 'Irlande', dialCode: '+353' },
+            { name: 'Islande', dialCode: '+354' },
+            { name: 'Israël', dialCode: '+972' },
+            { name: 'Italie', dialCode: '+39' },
+            { name: 'Jamaïque', dialCode: '+1' },
+            { name: 'Japon', dialCode: '+81' },
+            { name: 'Jordanie', dialCode: '+962' },
+            { name: 'Kazakhstan', dialCode: '+7' },
+            { name: 'Kenya', dialCode: '+254' },
+            { name: 'Kirghizistan', dialCode: '+996' },
+            { name: 'Kiribati', dialCode: '+686' },
+            { name: 'Koweït', dialCode: '+965' },
+            { name: 'Laos', dialCode: '+856' },
+            { name: 'Lesotho', dialCode: '+266' },
+            { name: 'Lettonie', dialCode: '+371' },
+            { name: 'Liban', dialCode: '+961' },
+            { name: 'Liberia', dialCode: '+231' },
+            { name: 'Libye', dialCode: '+218' },
+            { name: 'Liechtenstein', dialCode: '+423' },
+            { name: 'Lituanie', dialCode: '+370' },
+            { name: 'Luxembourg', dialCode: '+352' },
+            { name: 'Macédoine du Nord', dialCode: '+389' },
+            { name: 'Madagascar', dialCode: '+261' },
+            { name: 'Malaisie', dialCode: '+60' },
+            { name: 'Malawi', dialCode: '+265' },
+            { name: 'Maldives', dialCode: '+960' },
+            { name: 'Mali', dialCode: '+223' },
+            { name: 'Malte', dialCode: '+356' },
+            { name: 'Maroc', dialCode: '+212' },
+            { name: 'Marshall', dialCode: '+692' },
+            { name: 'Maurice', dialCode: '+230' },
+            { name: 'Mauritanie', dialCode: '+222' },
+            { name: 'Mexique', dialCode: '+52' },
+            { name: 'Micronésie', dialCode: '+691' },
+            { name: 'Moldavie', dialCode: '+373' },
+            { name: 'Monaco', dialCode: '+377' },
+            { name: 'Mongolie', dialCode: '+976' },
+            { name: 'Monténégro', dialCode: '+382' },
+            { name: 'Mozambique', dialCode: '+258' },
+            { name: 'Namibie', dialCode: '+264' },
+            { name: 'Nauru', dialCode: '+674' },
+            { name: 'Népal', dialCode: '+977' },
+            { name: 'Nicaragua', dialCode: '+505' },
+            { name: 'Niger', dialCode: '+227' },
+            { name: 'Nigeria', dialCode: '+234' },
+            { name: 'Norvège', dialCode: '+47' },
+            { name: 'Nouvelle-Zélande', dialCode: '+64' },
+            { name: 'Oman', dialCode: '+968' },
+            { name: 'Ouganda', dialCode: '+256' },
+            { name: 'Ouzbékistan', dialCode: '+998' },
+            { name: 'Pakistan', dialCode: '+92' },
+            { name: 'Palaos', dialCode: '+680' },
+            { name: 'Palestine', dialCode: '+970' },
+            { name: 'Panama', dialCode: '+507' },
+            { name: 'Papouasie-Nouvelle-Guinée', dialCode: '+675' },
+            { name: 'Paraguay', dialCode: '+595' },
+            { name: 'Pays-Bas', dialCode: '+31' },
+            { name: 'Pérou', dialCode: '+51' },
+            { name: 'Philippines', dialCode: '+63' },
+            { name: 'Pologne', dialCode: '+48' },
+            { name: 'Portugal', dialCode: '+351' },
+            { name: 'Qatar', dialCode: '+974' },
+            { name: 'Roumanie', dialCode: '+40' },
+            { name: 'Royaume-Uni', dialCode: '+44' },
+            { name: 'Russie', dialCode: '+7' },
+            { name: 'Rwanda', dialCode: '+250' },
+            { name: 'Saint-Christophe-et-Niévès', dialCode: '+1' },
+            { name: 'Sainte-Lucie', dialCode: '+1' },
+            { name: 'Saint-Marin', dialCode: '+378' },
+            { name: 'Saint-Vincent-et-les-Grenadines', dialCode: '+1' },
+            { name: 'Salomon', dialCode: '+677' },
+            { name: 'Salvador', dialCode: '+503' },
+            { name: 'Samoa', dialCode: '+685' },
+            { name: 'Sao Tomé-et-Principe', dialCode: '+239' },
+            { name: 'Sénégal', dialCode: '+221' },
+            { name: 'Serbie', dialCode: '+381' },
+            { name: 'Seychelles', dialCode: '+248' },
+            { name: 'Sierra Leone', dialCode: '+232' },
+            { name: 'Singapour', dialCode: '+65' },
+            { name: 'Slovaquie', dialCode: '+421' },
+            { name: 'Slovénie', dialCode: '+386' },
+            { name: 'Somalie', dialCode: '+252' },
+            { name: 'Soudan', dialCode: '+249' },
+            { name: 'Soudan du Sud', dialCode: '+211' },
+            { name: 'Sri Lanka', dialCode: '+94' },
+            { name: 'Suède', dialCode: '+46' },
+            { name: 'Suisse', dialCode: '+41' },
+            { name: 'Suriname', dialCode: '+597' },
+            { name: 'Syrie', dialCode: '+963' },
+            { name: 'Tadjikistan', dialCode: '+992' },
+            { name: 'Tanzanie', dialCode: '+255' },
+            { name: 'Tchad', dialCode: '+235' },
+            { name: 'République tchèque', dialCode: '+420' },
+            { name: 'Thaïlande', dialCode: '+66' },
+            { name: 'Timor oriental', dialCode: '+670' },
+            { name: 'Togo', dialCode: '+228' },
+            { name: 'Tonga', dialCode: '+676' },
+            { name: 'Trinité-et-Tobago', dialCode: '+1' },
+            { name: 'Tunisie', dialCode: '+216' },
+            { name: 'Turkménistan', dialCode: '+993' },
+            { name: 'Turquie', dialCode: '+90' },
+            { name: 'Tuvalu', dialCode: '+688' },
+            { name: 'Ukraine', dialCode: '+380' },
+            { name: 'Uruguay', dialCode: '+598' },
+            { name: 'Vanuatu', dialCode: '+678' },
+            { name: 'Vatican', dialCode: '+379' },
+            { name: 'Venezuela', dialCode: '+58' },
+            { name: 'Vietnam', dialCode: '+84' },
+            { name: 'Yémen', dialCode: '+967' },
+            { name: 'Zambie', dialCode: '+260' },
+            { name: 'Zimbabwe', dialCode: '+263' }
+        ];
+
+        function populateCountrySelect() {
+            if (!countrySelect) return;
+
+            countrySelect.innerHTML = '';
+            countryDialCodes.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country.dialCode;
+                option.textContent = `${country.name} (${country.dialCode})`;
+                countrySelect.appendChild(option);
+            });
+
+            const currentValue = countrySelect.value || '+33';
+            countrySelect.value = currentValue;
+        }
+
+        function updatePhonePlaceholder(prefix) {
+            const placeholders = {
+                '+33': '6 XX XX XX XX',
+                '+212': '6 XX XX XX XX',
+                '+213': '5 XX XX XX XX',
+                '+1': 'XXX XXX XXXX',
+                '+44': '7XXX XXXXXX',
+                '+49': '1XXX XXXXXXX',
+                '+39': '3 XX XXX XXXX',
+                '+34': '6 XX XX XX XX',
+                '+216': '2 XX XXX XXX',
+                '+971': '5 XX XXX XXX',
+                '+81': '9X XXXX XXXX',
+                '+91': '9XXXXXXXXX',
+                '+86': '1XXXXXXXXXX',
+                '+7': '9 XX XXX XX XX',
+                '+61': '4XXX XXX XXX',
+                '+55': 'XX XXXXX XXXX',
+                '+27': 'X XXX XXXX',
+                '+82': '10-XXXX-XXXX',
+                '+46': '7-XXX XX XX',
+                '+31': '6XXXXXXXX',
+                '+41': '7XXX XXX XXX',
+                '+32': '4XX XX XX XX',
+                '+48': '5XX XXX XXX',
+                '+351': '9XX XXX XXX',
+                '+358': '4X XXX XXXX',
+                '+47': '4XX XX XXX',
+                '+353': '8XX XXX XXX',
+                '+420': '6XX XXX XXX',
+                '+36': '20 XXX XXXX',
+                '+30': '69XXXXXXXX',
+                '+385': '9XX XXX XXX'
+            };
+
+            phoneInput.placeholder = placeholders[prefix] || 'XXX XXX XXXX';
+        }
+
+        function updatePhonePrefix() {
+            if (!countrySelect || !phonePrefix || !phoneInput) return;
+
+            const prefix = countrySelect.value || '+33';
+            phonePrefix.value = prefix;
+            updatePhonePlaceholder(prefix);
+        }
+
+        if (phonePrefix) {
+            phonePrefix.addEventListener('input', () => {
+                let value = phonePrefix.value.replace(/[^0-9+]/g, '');
+                if (!value.startsWith('+')) {
+                    value = `+${value.replace(/\+/g, '')}`;
+                }
+                phonePrefix.value = value.slice(0, 5);
+                const matchedCountry = countryDialCodes.find(country => country.dialCode === value);
+                if (matchedCountry) {
+                    countrySelect.value = matchedCountry.dialCode;
+                }
+                updatePhonePlaceholder(value || '+33');
+            });
+        }
+
+        populateCountrySelect();
+        updatePhonePrefix();
+        countrySelect.addEventListener('change', updatePhonePrefix);
+
+        document.getElementById('bookingForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const refNum = 'VE-' + new Date().getFullYear() + '-' + String(Math.floor(Math.random() * 9999)).padStart(4, '0');
+            document.getElementById('refNumber').textContent = refNum;
+            showModal();
+        });
+
+        // Book flight buttons
+        document.querySelectorAll('.book-flight').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const flightNum = btn.getAttribute('data-flight');
+                document.getElementById('reservation').scrollIntoView({ behavior: 'smooth' });
+                // Pre-fill flight number
+                const flightInput = document.querySelector('input[placeholder="Ex: RAM-2301"]');
+                if (flightInput) {
+                    flightInput.value = flightNum;
+                }
+            });
+        });
+
+        // Filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Update active state
+                document.querySelectorAll('.filter-btn').forEach(b => {
+                    b.classList.remove('bg-primary', 'text-white');
+                    b.classList.add('bg-gray-200', 'text-gray-600');
+                });
+                btn.classList.add('bg-primary', 'text-white');
+                btn.classList.remove('bg-gray-200', 'text-gray-600');
+                
+                // Filter flights
+                const filter = btn.getAttribute('data-filter');
+                document.querySelectorAll('.flight-card').forEach(card => {
+                    if (filter === 'all' || card.getAttribute('data-class') === filter) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Modal functions
+        function showModal() {
+            const modal = document.getElementById('bookingModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('bookingModal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        // Close modal on outside click
+        document.getElementById('bookingModal').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('bookingModal')) {
+                closeModal();
+            }
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.card-hover, .flight-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+    </script>
+
+</body></html>
